@@ -1,0 +1,268 @@
+/* Glass arrow: translucent round button for use over photography */
+
+.glass-arrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.34);
+  -webkit-backdrop-filter: blur(3.1px);
+  backdrop-filter: blur(3.1px);
+  box-shadow: 0 4px 8.9px rgba(0, 0, 0, 0.25);
+  opacity: 1;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.glass-arrow:hover:not(:disabled) { background: rgba(255, 255, 255, 0.5); }
+.glass-arrow:disabled { opacity: 0.35; cursor: default; }
+.glass-arrow img { width: 10.46px; height: 18.08px; transform: translateX(1.5px); }
+.glass-arrow--prev img { transform: rotate(180deg) translateX(1.5px); }
+.glass-arrow--outline { border: 1px solid #fff; box-shadow: none; }
+
+.project-contact-btn { text-transform: uppercase; }
+
+/* Hero slider (Bootstrap carousel) */
+
+.project-hero .carousel-item { height: clamp(360px, 48.96vw, 940px); }
+
+.project-hero .carousel-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 27.9%, rgba(0, 0, 0, 0) 68.3%, rgba(0, 0, 0, 0.42) 100%);
+  pointer-events: none;
+}
+
+.project-hero__media { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.project-hero .glass-arrow { top: 50%; bottom: auto; opacity: 1; transform: translateY(-50%); }
+.project-hero .carousel-control-prev { left: var(--gutter); }
+.project-hero .carousel-control-next { right: var(--gutter); }
+
+.project-hero .carousel-indicators { gap: 0; margin-bottom: clamp(10px, 1.9vw, 37px); }
+
+/* The visible dot is a pseudo-element so each button keeps a 24px-tall hit area. */
+.project-hero .carousel-indicators [data-bs-target] {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: auto;
+  height: 24px;
+  margin: 0;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  opacity: 1;
+  text-indent: 0;
+}
+
+.project-hero .carousel-indicators [data-bs-target]::before {
+  content: "";
+  width: 11px;
+  height: 11px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+  transition: width 0.3s var(--ease-out);
+}
+
+.project-hero .carousel-indicators .active::before { width: 32px; }
+
+/* Overview band */
+
+.project-overview { padding-block: clamp(56px, 5.6vw, 107px); text-align: start; }
+
+.project-overview__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 447fr) minmax(0, 1020fr);
+  align-items: center;
+  column-gap: clamp(40px, 13.18vw, 253px);
+  max-width: 1720px;
+  margin-inline: auto;
+}
+
+.project-overview__body { grid-column: 2; grid-row: 1; }
+.project-overview .brand-band__text { margin-top: clamp(16px, 1.5vw, 28px); }
+.project-overview .project-contact-btn { min-width: min(277px, 100%); margin-top: clamp(28px, 2.5vw, 48px); }
+
+.project-stats { display: grid; grid-column: 1; grid-row: 1; row-gap: clamp(32px, 2.6vw, 50px); margin: 0; }
+.project-stats dt { color: rgba(255, 255, 255, 0.6); font-size: 16px; font-weight: 400; line-height: 1.2; }
+.project-stats dd { margin: 15px 0 0; font-size: var(--fs-title); font-weight: 500; line-height: 1.2; text-transform: uppercase; }
+
+/* Section intros */
+
+.project-intro { max-width: 994px; margin-bottom: clamp(24px, 1.67vw, 32px); }
+.project-intro--narrow { max-width: 865px; }
+
+.project-intro .section-title,
+.project-location .section-title { font-weight: 400; }
+
+/* Amenities */
+
+.project-amenities { padding-block: clamp(56px, 4.53vw, 87px) clamp(56px, 4.9vw, 94px); background: var(--surface); }
+
+.amenity-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 385fr)) minmax(max-content, 180fr);
+  row-gap: clamp(32px, 3.75vw, 72px);
+  margin: clamp(24px, 5.73vw, 110px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.amenity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: max-content;
+  max-width: 100%;
+  padding-block: 8px;
+  color: var(--brand);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.amenity img { width: 70px; height: 70px; }
+
+/* Carousels (floor plans, gallery) */
+
+.project-carousel .scroll-carousel__footer { gap: 13px; }
+.project-carousel .scroll-carousel__controls { gap: clamp(16px, 2.24vw, 43px); }
+
+/* Floor plans */
+
+.project-floorplans { padding-block: clamp(56px, 6.1vw, 117px) clamp(56px, 5.2vw, 100px); }
+
+.project-floorplans__carousel { --gap: clamp(20px, 3.2vw, 61px); --per-view-sm: 1.2; }
+
+/* Room for the card shadow, which the scrolling track would otherwise clip. */
+.project-floorplans__carousel .scroll-carousel__track { margin-block: -12px; padding-block: 12px; }
+
+.floorplan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  aspect-ratio: 384 / 478;
+  padding: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.floorplan-card__title { color: var(--ink-60); font-size: var(--fs-title); line-height: 1.2; text-align: center; }
+
+.floorplan-card img {
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 0;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+/* Gallery */
+
+.project-gallery { padding-block: clamp(56px, 4.5vw, 86px) clamp(56px, 5.2vw, 100px); background: var(--surface); }
+
+.project-gallery__carousel { --gap: clamp(16px, 1.67vw, 32px); --per-view-sm: 1.2; }
+
+.project-gallery__stage { position: relative; }
+
+.gallery-card { padding: clamp(8px, 0.83vw, 16px); border-radius: var(--radius); background: var(--surface); }
+
+.gallery-card img {
+  display: block;
+  width: 100%;
+  max-height: 75svh;
+  aspect-ratio: 374 / 852;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.project-gallery__arrow { position: absolute; top: 50%; z-index: 2; transform: translateY(-50%); }
+.project-gallery__arrow--prev { left: clamp(8px, 0.83vw, 16px); }
+.project-gallery__arrow--next { right: clamp(8px, 0.83vw, 16px); }
+
+/* Location */
+
+.project-location__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 700fr) minmax(0, 953fr);
+  align-items: start;
+  gap: 40px clamp(24px, 3.49vw, 67px);
+  padding-block: clamp(56px, 5.2vw, 100px);
+}
+
+.project-location__map { display: block; width: 100%; aspect-ratio: 700 / 707; border-radius: var(--radius); object-fit: cover; }
+
+.location-features { display: grid; gap: 16px; margin: 20px 0 0; padding: 0; list-style: none; }
+
+.location-feature {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 1.67vw, 32px);
+  padding: clamp(20px, 1.56vw, 30px);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink-60);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.location-feature img { flex: none; width: 75px; height: 67px; }
+
+/* Closing CTA */
+
+.project-cta {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: clamp(520px, 49.74vw, 955px);
+  padding: 80px var(--gutter);
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+}
+
+.project-cta__media { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+
+.project-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
+.project-cta__content { max-width: 923px; padding: clamp(0px, 1.56vw, 30px); }
+.project-cta__icon { display: block; width: 33.985px; height: 49.886px; margin-inline: auto; }
+.project-cta .section-title { margin-top: clamp(16px, 1.25vw, 24px); }
+.project-cta__text { margin-top: clamp(12px, 1.04vw, 20px); font-size: 16px; line-height: 30px; }
+.project-cta .project-contact-btn { margin-top: clamp(20px, 1.56vw, 30px); }
+
+@media (max-width: 991.98px) {
+  .project-overview__inner { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
+  .project-overview__body,
+  .project-stats { grid-column: auto; grid-row: auto; }
+  .project-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--col-gap); }
+
+  .project-location__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 767.98px) {
+  .amenity-list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 16px; }
+  .project-gallery__arrow { display: none; }
+}
+
+@media (max-width: 575.98px) {
+  .glass-arrow,
+  .project-carousel .carousel-arrow { width: 40px; height: 40px; }
+
+  .project-stats { grid-template-columns: minmax(0, 1fr); }
+  .amenity-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .location-feature img { width: 56px; height: 50px; }
+}
