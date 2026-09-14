@@ -1,0 +1,44 @@
+/* Collection pages (properties for sale / lease) */
+
+.collection { padding-block: clamp(16px, 1.2vw, 24px) clamp(24px, 2.6vw, 50px); }
+
+.collection-section { padding-block: 50px; }
+.collection-section + .collection-section { margin-top: 22px; }
+.collection-section .section-intro { margin-bottom: 32px; }
+
+.property-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 210px;
+  gap: 20px;
+}
+
+/* Category listing pages (residential, commercial, industrial, special) */
+
+.listing { padding-block: 32px clamp(64px, 6.25vw, 120px); }
+.listing .pager { margin-top: 56px; }
+
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 1399.98px) {
+  .property-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1199.98px) {
+  .property-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 991.98px) {
+  .property-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-section { padding-block: 32px; }
+  .collection-section + .collection-section { margin-top: 0; }
+}
+
+@media (max-width: 575.98px) {
+  .property-row,
+  .property-grid { grid-template-columns: 1fr; }
+  .listing .pager { margin-top: 40px; }
+}
