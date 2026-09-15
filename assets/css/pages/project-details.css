@@ -196,7 +196,7 @@
   padding-block: clamp(56px, 5.2vw, 100px);
 }
 
-.project-location__map { display: block; width: 100%; aspect-ratio: 700 / 707; border-radius: var(--radius); object-fit: cover; }
+.project-location__map { display: block; width: 100%; aspect-ratio: 700 / 707; border: 0; border-radius: var(--radius); background: #e5e3df; }
 
 .location-features { display: grid; gap: 16px; margin: 20px 0 0; padding: 0; list-style: none; }
 

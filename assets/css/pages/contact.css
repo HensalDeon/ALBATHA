@@ -180,7 +180,16 @@
 
 /* Contact details */
 
-.contact-details__map { display: block; width: 100%; margin-top: 24px; border-radius: var(--radius); }
+.contact-details__map {
+  display: block;
+  width: 100%;
+  min-height: 260px;
+  aspect-ratio: 1400 / 535;
+  margin-top: 24px;
+  border: 0;
+  border-radius: var(--radius);
+  background: #e5e3df;
+}
 
 .contact-details__subtitle {
   margin-top: 20px;

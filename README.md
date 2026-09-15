@@ -84,11 +84,11 @@ python3 -m http.server 8765
 - **Content & links**: copy is placeholder (lorem ipsum) in several sections; social, Albatha Portal, Privacy Policy
   and news article links point to `#`.
 - **Arabic**: the language switcher is present, but no Arabic/RTL version exists yet.
+- **Maps**: `project-details.html` and `contact.html` embed Google Maps (keyless `output=embed` iframes) pinned to
+  Palm Jebel Ali, as in the design. Change the `q=` value in each iframe `src` to the real address or place name.
 - **Imagery from the design file**:
   - `listings/hero-commercial.jpg` carries visible "Unsplash+" watermarks — replace with a licensed photo.
   - `about/tower.jpg` only exists at 800×1200 in Figma and looks soft full-width — request a larger original.
-  - `contact/map.jpg` and `project/map.jpg` are screenshots of Google Maps; swap for a proper map embed or licensed static map.
-
 ## Page notes
 
 - **Contact** selects a panel from the URL hash, so other pages can deep-link:
