@@ -31,9 +31,11 @@ python3 -m http.server 8765
     ├── css/
     │   ├── base.css            Design tokens, element defaults, utilities
     │   ├── layout.css          Header, slide-out menu, footer
-    │   ├── components.css      Reusable components (hero, cards, carousels, buttons…)
+    │   ├── components.css      Reusable components (hero, cards, carousels, buttons…) and their hover motion
+    │   ├── animations.css      Scroll reveal, parallax headroom and keyframes (see "Motion")
     │   └── pages/              One stylesheet per page/template
     ├── js/
+    │   ├── main.js             Site-wide: reveal, parallax, header scroll state, menu, disclosures, carousel progress
     │   ├── components/         Self-initialising components (data-attribute driven)
     │   └── pages/              Page-only behaviour
     ├── icons/                  SVG icons (page-specific ones in sub-folders)
@@ -56,6 +58,42 @@ python3 -m http.server 8765
   below the fold (`fetchpriority="high"` for the hero).
 - **Accessibility**: skip link, landmark elements, one `h1` per page, visible focus styles, keyboard-operable
   carousels/tabs, `prefers-reduced-motion` respected.
+
+## Motion
+
+Slow, soft and editorial; never bouncy. Plain CSS (`animations.css`, plus hover motion next to each component) and
+`main.js`.
+
+- **Always visible**: styles that hide content before it reveals only apply under the `.js` class (set inline in
+  `<head>`). Everything that moves on its own sits inside `@media (prefers-reduced-motion: no-preference)`; with reduced
+  motion `main.js` shows everything at once and skips parallax, header hiding and carousel autoplay.
+- **Cheap to render**: only `opacity`, `transform`/`scale`, `clip-path` and (for disclosures) `grid-template-rows` animate.
+  Reveals use one IntersectionObserver; parallax and the header share one frame-throttled passive scroll listener.
+- **Two easings**: `--ease` (soft ease-out, most motion) and `--ease-inout` (masks, fills, menus).
+
+| Attribute | Effect |
+| --- | --- |
+| `data-reveal="up · down · left · right · fade · zoom"` | Fades in from an offset (1s), once, when it scrolls into view |
+| `data-reveal="mask · mask-left"` | Wipes in upward / from the right (1.4s) |
+| `data-reveal-delay="150"` | Delay in ms |
+| `data-reveal-stagger="120"` (on a parent) | Adds `index × 120ms` to each direct `[data-reveal]` child |
+| `data-parallax="0.2"` | Parallax on an absolutely positioned image inside an `overflow: hidden` parent |
+| `data-carousel-progress` | Progress bar for a Bootstrap carousel |
+| `data-disclosure` (+ `aria-controls`) | Toggles a `.disclosure` panel (menu sub-lists) |
+
+Conventions:
+
+- Section copy cascades with `up`: eyebrow 0 → title 100 → paragraph 200 → button or link 300. Hero copy: title 150,
+  text 300, so it plays on load.
+- Icons and emblems use `zoom`; large editorial images use `mask`, or `mask-left` beside text.
+- Card grids and rows use `data-reveal-stagger="120"` (150 for short rows) with `up` children; each row restarts the
+  cascade as it scrolls in. Sliders reveal as one block.
+- Parallax speeds: hero `0.2`, full-bleed section backgrounds `0.12`. The layer gets 12% headroom above and below, so an
+  image pinned to its top edge needs that much extra image above the subject (see `listings/hero-for-sale.jpg`).
+- Once an entrance finishes, `main.js` removes `data-reveal`, so hover lifts, shadows and transitions work normally and
+  nothing stays clipped. Don't nest reveals, and don't put one on an element with its own `transform`; reveal a wrapper.
+- Nothing loops except `.scroll-cue__icon` and the `.fab` pulse, both ready in `animations.css` but unused because the
+  design has no scroll cue or floating button.
 
 ## Figma frames
 

@@ -1,8 +1,25 @@
 /* Site header, slide-out menu and footer — identical on every page. */
 
-/* Header */
+/* Header: sticky. main.js adds .is-scrolled past 10px and .is-hidden while scrolling down. */
 
-.site-header { background: #000; color: #fff; }
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: #000;
+  color: #fff;
+  transition: box-shadow 0.5s var(--ease);
+}
+
+.site-header.is-scrolled { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); }
+
+/* The transform is only set while hidden: a permanent one would make the header the containing block
+   for fixed-position descendants. */
+.site-header.is-hidden { transform: translateY(-100%); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header { transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease); }
+}
 
 .site-header__inner {
   display: grid;
@@ -15,7 +32,11 @@
 
 .header-left { display: flex; align-items: center; gap: 26px; justify-self: start; }
 
-.btn-menu { padding: 0; border: 0; border-radius: 50%; background: none; line-height: 0; }
+.btn-menu { padding: 0; border: 0; border-radius: 50%; background: none; line-height: 0; transition: scale 0.4s var(--ease); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-menu:hover { scale: 1.08; }
+}
 
 .lang-pill {
   display: inline-flex;
@@ -32,7 +53,17 @@
 }
 
 .lang-pill__chevron { display: inline-flex; align-items: center; justify-content: center; width: 9.73px; height: 6px; }
-.lang-pill__chevron img { flex: none; width: 6px; height: 9.73px; max-width: none; transform: rotate(90deg); }
+
+.lang-pill__chevron img {
+  flex: none;
+  width: 6px;
+  height: 9.73px;
+  max-width: none;
+  transform: rotate(90deg);
+  transition: transform 0.4s var(--ease);
+}
+
+.lang-pill[aria-expanded="true"] .lang-pill__chevron img { transform: rotate(-90deg); }
 
 .lang-menu {
   --bs-dropdown-min-width: 100%;
@@ -52,17 +83,18 @@
 
 .site-header .btn-glass { justify-self: end; }
 
-/* Slide-out menu (Bootstrap offcanvas) */
+/* Slide-out menu (Bootstrap offcanvas). Bootstrap reads the transition duration to time open/close. */
 
 .site-menu {
   --bs-offcanvas-width: min(520px, 100vw);
   --bs-offcanvas-bg: #fff;
   --bs-offcanvas-color: var(--ink);
   --bs-offcanvas-border-width: 0;
-  --bs-offcanvas-transition: transform 0.45s var(--ease-out);
+  --bs-offcanvas-transition: transform 0.7s var(--ease-inout);
 }
 
 .offcanvas-backdrop { --bs-backdrop-opacity: 0.7; }
+.offcanvas-backdrop.fade { transition: opacity 0.7s var(--ease-inout); }
 
 .site-menu__inner {
   display: flex;
@@ -82,9 +114,14 @@
   border: 0;
   border-radius: 31px;
   background: #000;
+  transition: scale 0.4s var(--ease);
 }
 
-.site-menu__close img { width: 24px; height: 24px; }
+.site-menu__close img { width: 24px; height: 24px; transition: transform 0.45s var(--ease); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-menu__close:hover img { transform: rotate(90deg); }
+}
 
 .site-menu__nav { margin-top: 60px; }
 
@@ -104,9 +141,14 @@
   text-decoration: none;
 }
 
-.site-menu__link { color: var(--ink); }
-.site-menu__link:hover,
-.site-menu__link[aria-current="page"] { color: var(--brand); }
+/* Main links draw a brand underline in on hover and keep it on the current page. */
+.site-menu__link {
+  background: linear-gradient(var(--brand), var(--brand)) 0 100% / 0 1px no-repeat;
+  color: var(--ink);
+  transition: color 0.4s var(--ease), background-size 0.45s var(--ease);
+}
+
+.site-menu__link:is(:hover, :focus-visible, [aria-current="page"]) { background-size: 100% 1px; color: var(--brand); }
 
 .site-menu__toggle {
   display: grid;
@@ -120,28 +162,28 @@
   color: var(--ink);
 }
 
-.site-menu__toggle svg { width: 6px; height: 9.73px; fill: currentColor; transform: rotate(-90deg); transition: transform 0.25s; }
+.site-menu__toggle svg { width: 6px; height: 9.73px; fill: currentColor; transform: rotate(-90deg); transition: transform 0.4s var(--ease); }
 .site-menu__toggle[aria-expanded="true"] svg { transform: rotate(90deg); }
 
-.site-menu__sub { padding: 23px 0 0 10px; }
+/* Sub-lists sit inside a .disclosure panel (components.css), which owns their padding. */
+.site-menu__sub li { padding-left: 10px; }
+.site-menu__sub li:first-child,
 .site-menu__sub li + li { margin-top: 23px; }
 
-.site-menu__sublink { color: var(--muted); transition: color 0.2s; }
+.site-menu__sublink { color: var(--muted); transition: color 0.4s var(--ease); }
 
 .site-menu__sublink::after {
-  content: " →";
-  content: " →" / "";
+  content: "→";
+  content: "→" / "";
+  display: inline-block;
+  margin-left: 0.3em;
   opacity: 0;
-  transition: opacity 0.2s;
+  transform: translateX(-6px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
 }
 
-.site-menu__sublink:hover,
-.site-menu__sublink:focus-visible,
-.site-menu__sublink[aria-current="page"] { color: var(--ink); }
-
-.site-menu__sublink:hover::after,
-.site-menu__sublink:focus-visible::after,
-.site-menu__sublink[aria-current="page"]::after { opacity: 1; }
+.site-menu__sublink:is(:hover, :focus-visible, [aria-current="page"]) { color: var(--ink); }
+.site-menu__sublink:is(:hover, :focus-visible, [aria-current="page"])::after { opacity: 1; transform: none; }
 
 .site-menu__social {
   display: flex;
@@ -153,6 +195,22 @@
 
 .site-menu__social a { color: var(--muted); font-size: 16px; font-weight: 500; text-decoration: none; }
 .site-menu__social a:hover { color: var(--ink); }
+
+/* Menu items rise in one after another as the panel opens (--i is set by main.js). */
+@media (prefers-reduced-motion: no-preference) {
+  .js .site-menu__list > li,
+  .js .site-menu__social {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+
+  .js .site-menu:is(.showing, .show) :is(.site-menu__list > li, .site-menu__social) {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i, 0) * 45ms + 200ms);
+  }
+}
 
 /* Footer */
 
@@ -183,6 +241,7 @@
   color: var(--ink);
   font-size: 16px;
   font-weight: 500;
+  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
 .subscribe-form input::placeholder { color: var(--ink-60); opacity: 1; }
@@ -193,18 +252,32 @@
   position: absolute;
   top: 0;
   right: 0;
+  isolation: isolate;
   width: 150px;
   height: 45px;
+  overflow: hidden;
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--brand);
   color: #fff;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.2s;
 }
 
-.subscribe-form button:hover { background: var(--brand-hover); }
+/* Same sliding fill as .btn-brand */
+.subscribe-form button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--brand-hover);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-inout);
+}
+
+.subscribe-form button:is(:hover, :focus-visible)::before { transform: scaleX(1); transform-origin: left; }
 
 .form-status { margin-top: 12px; color: var(--brand); font-size: 14px; font-weight: 500; }
 
@@ -221,6 +294,16 @@
 .footer-bottom__right { text-align: right; }
 .footer-bottom a:not(.brand-logo) { color: inherit; text-decoration: none; }
 .footer-bottom a:not(.brand-logo):hover { color: var(--brand); }
+
+/* Menu and footer text links draw their underline in on hover, like .link-brand. */
+.site-menu__social a,
+.footer-links a,
+.footer-bottom a:not(.brand-logo) {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: color 0.4s var(--ease), background-size 0.45s var(--ease);
+}
+
+:is(.site-menu__social a, .footer-links a, .footer-bottom a:not(.brand-logo)):is(:hover, :focus-visible) { background-size: 100% 1px; }
 
 @media (max-width: 1199.98px) {
   .footer-top { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 48px; }
@@ -244,4 +327,10 @@
   .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .subscribe-form input { padding-right: 126px; }
   .subscribe-form button { width: 110px; }
+
+  /* The menu fills the screen on phones, so it wipes open top-down instead of sliding in. */
+  .site-menu { --bs-offcanvas-transition: clip-path 0.7s var(--ease-inout); }
+  .site-menu.offcanvas-start { clip-path: inset(0 0 100% 0); transform: none; }
+  .site-menu.showing,
+  .site-menu.show:not(.hiding) { clip-path: inset(0); }
 }

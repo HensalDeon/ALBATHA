@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add('js');</script>
   <title>News &amp; Insights | Albatha Real Estate</title>
   <meta name="description" content="The latest news, insights and project milestones from Albatha Real Estate across the UAE.">
   <meta name="theme-color" content="#000000">
@@ -18,6 +19,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/layout.css">
   <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
   <link rel="stylesheet" href="assets/css/pages/news.css">
 </head>
 <body class="page-news">
@@ -50,7 +52,7 @@
         <span class="brand-logo__tag" aria-hidden="true">with you</span>
       </a>
 
-      <a href="contact.html" class="btn-glass">Let’s Talk →</a>
+      <a href="contact.html" class="btn-glass">Let’s Talk&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
     </div>
   </header>
 
@@ -68,12 +70,12 @@
           <li>
             <div class="site-menu__group">
               <a class="site-menu__link" href="properties-for-sale.html">Properties For Sale</a>
-              <button type="button" class="site-menu__toggle" data-bs-toggle="collapse" data-bs-target="#menu-sale" aria-expanded="true" aria-controls="menu-sale">
+              <button type="button" class="site-menu__toggle" aria-expanded="true" aria-controls="menu-sale" data-disclosure>
                 <span class="visually-hidden">Show or hide Properties For Sale links</span>
                 <svg viewBox="0 0 6 9.73" aria-hidden="true"><path d="M4.86486 9.72973L0 4.86487L4.86486 0L6 1.13514L2.27027 4.86487L6 8.5946L4.86486 9.72973Z"/></svg>
               </button>
             </div>
-            <div class="collapse show" id="menu-sale">
+            <div class="disclosure" id="menu-sale">
               <ul class="site-menu__sub">
                 <li><a class="site-menu__sublink" href="residential-projects.html">Residential Projects</a></li>
                 <li><a class="site-menu__sublink" href="commercial-projects.html">Commercial Projects</a></li>
@@ -84,12 +86,12 @@
           <li>
             <div class="site-menu__group">
               <a class="site-menu__link" href="properties-for-lease.html">Properties For Lease</a>
-              <button type="button" class="site-menu__toggle" data-bs-toggle="collapse" data-bs-target="#menu-lease" aria-expanded="true" aria-controls="menu-lease">
+              <button type="button" class="site-menu__toggle" aria-expanded="true" aria-controls="menu-lease" data-disclosure>
                 <span class="visually-hidden">Show or hide Properties For Lease links</span>
                 <svg viewBox="0 0 6 9.73" aria-hidden="true"><path d="M4.86486 9.72973L0 4.86487L4.86486 0L6 1.13514L2.27027 4.86487L6 8.5946L4.86486 9.72973Z"/></svg>
               </button>
             </div>
-            <div class="collapse show" id="menu-lease">
+            <div class="disclosure" id="menu-lease">
               <ul class="site-menu__sub">
                 <li><a class="site-menu__sublink" href="residential-projects.html">Residential Projects</a></li>
                 <li><a class="site-menu__sublink" href="commercial-projects.html">Commercial Projects</a></li>
@@ -115,11 +117,11 @@
   <main id="main">
 
     <section class="page-hero on-dark">
-      <img class="page-hero__media" src="assets/images/news/hero.jpg" width="2200" height="1474" alt="" style="--hero-position: center 19%" fetchpriority="high">
+      <img class="page-hero__media" data-parallax="0.2" src="assets/images/news/hero.jpg" width="2200" height="1474" alt="" style="--hero-position: center 19%" fetchpriority="high">
       <div class="container-wide">
-        <div class="page-hero__content">
-          <h1 class="page-hero__title">News &amp; Insights</h1>
-          <p class="page-hero__text">Albatha Real Estate develops, owns and manages assets across the UAE, combining decades of experience with a long-term approach to value creation.</p>
+        <div class="page-hero__content hero-copy">
+          <h1 class="page-hero__title" data-reveal="up" data-reveal-delay="150">News &amp; Insights</h1>
+          <p class="page-hero__text" data-reveal="up" data-reveal-delay="300">Albatha Real Estate develops, owns and manages assets across the UAE, combining decades of experience with a long-term approach to value creation.</p>
         </div>
       </div>
     </section>
@@ -128,14 +130,14 @@
       <div class="container-wide">
         <h2 id="latest-title" class="visually-hidden">Latest news</h2>
 
-        <div class="scroll-carousel news-latest__carousel" data-scroll-carousel>
+        <div class="scroll-carousel news-latest__carousel" data-scroll-carousel data-reveal="up">
           <div class="scroll-carousel__track" data-track tabindex="0" role="region" aria-label="Latest news articles">
             <article class="news-card">
               <div class="news-card__media"><img src="assets/images/news/article.jpg" width="1400" height="933" alt="Dining and living area of a furnished apartment" loading="lazy"></div>
               <div class="news-card__body">
                 <p class="post-meta"><time datetime="2026-08-06">06 August</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Newsletter</span></p>
                 <h3 id="news-1" class="news-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                <a class="link-brand" href="#" aria-describedby="news-1">Read Article →</a>
+                <a class="link-brand" href="#" aria-describedby="news-1">Read Article&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
               </div>
             </article>
             <article class="news-card">
@@ -143,7 +145,7 @@
               <div class="news-card__body">
                 <p class="post-meta"><time datetime="2026-07-22">22 July</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Newsletter</span></p>
                 <h3 id="news-2" class="news-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                <a class="link-brand" href="#" aria-describedby="news-2">Read Article →</a>
+                <a class="link-brand" href="#" aria-describedby="news-2">Read Article&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
               </div>
             </article>
             <article class="news-card">
@@ -151,7 +153,7 @@
               <div class="news-card__body">
                 <p class="post-meta"><time datetime="2026-07-09">09 July</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Newsletter</span></p>
                 <h3 id="news-3" class="news-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                <a class="link-brand" href="#" aria-describedby="news-3">Read Article →</a>
+                <a class="link-brand" href="#" aria-describedby="news-3">Read Article&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
               </div>
             </article>
             <article class="news-card">
@@ -159,7 +161,7 @@
               <div class="news-card__body">
                 <p class="post-meta"><time datetime="2026-06-18">18 June</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Newsletter</span></p>
                 <h3 id="news-4" class="news-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                <a class="link-brand" href="#" aria-describedby="news-4">Read Article →</a>
+                <a class="link-brand" href="#" aria-describedby="news-4">Read Article&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
               </div>
             </article>
             <article class="news-card">
@@ -167,7 +169,7 @@
               <div class="news-card__body">
                 <p class="post-meta"><time datetime="2026-05-27">27 May</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Newsletter</span></p>
                 <h3 id="news-5" class="news-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                <a class="link-brand" href="#" aria-describedby="news-5">Read Article →</a>
+                <a class="link-brand" href="#" aria-describedby="news-5">Read Article&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
               </div>
             </article>
             <article class="news-card">
@@ -175,7 +177,7 @@
               <div class="news-card__body">
                 <p class="post-meta"><time datetime="2026-05-04">04 May</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Newsletter</span></p>
                 <h3 id="news-6" class="news-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                <a class="link-brand" href="#" aria-describedby="news-6">Read Article →</a>
+                <a class="link-brand" href="#" aria-describedby="news-6">Read Article&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
               </div>
             </article>
           </div>
@@ -198,47 +200,47 @@
     <section class="news-milestones" aria-labelledby="milestones-title">
       <div class="container-wide">
         <div class="section-intro">
-          <h2 id="milestones-title" class="section-title section-title--brand">Project milestones</h2>
-          <p class="section-intro__text text-body-60">Albatha Real Estate develops, owns and manages assets across the UAE, combining decades of experience with a long-term approach to value creation.</p>
+          <h2 id="milestones-title" class="section-title section-title--brand" data-reveal="up" data-reveal-delay="100">Project milestones</h2>
+          <p class="section-intro__text text-body-60" data-reveal="up" data-reveal-delay="200">Albatha Real Estate develops, owns and manages assets across the UAE, combining decades of experience with a long-term approach to value creation.</p>
         </div>
 
-        <div class="scroll-carousel news-milestones__carousel" data-scroll-carousel>
+        <div class="scroll-carousel news-milestones__carousel" data-scroll-carousel data-reveal="up" data-reveal-delay="300">
           <div class="scroll-carousel__track" data-track tabindex="0" role="region" aria-label="Project milestone stories">
             <article class="milestone-card">
               <div class="milestone-card__media"><img src="assets/images/news/milestone.jpg" width="900" height="549" alt="Car showroom with a glass facade and flags at the entrance" loading="lazy"></div>
               <p class="post-meta"><time datetime="2026-08-06">06 August</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Blog</span></p>
               <h3 id="milestone-1" class="milestone-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-1">Read more →</a>
+              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-1">Read more&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
             </article>
             <article class="milestone-card">
               <div class="milestone-card__media"><img src="assets/images/news/milestone.jpg" width="900" height="549" alt="Car showroom with a glass facade and flags at the entrance" loading="lazy"></div>
               <p class="post-meta"><time datetime="2026-07-15">15 July</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Blog</span></p>
               <h3 id="milestone-2" class="milestone-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-2">Read more →</a>
+              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-2">Read more&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
             </article>
             <article class="milestone-card">
               <div class="milestone-card__media"><img src="assets/images/news/milestone.jpg" width="900" height="549" alt="Car showroom with a glass facade and flags at the entrance" loading="lazy"></div>
               <p class="post-meta"><time datetime="2026-06-30">30 June</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Blog</span></p>
               <h3 id="milestone-3" class="milestone-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-3">Read more →</a>
+              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-3">Read more&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
             </article>
             <article class="milestone-card">
               <div class="milestone-card__media"><img src="assets/images/news/milestone.jpg" width="900" height="549" alt="Car showroom with a glass facade and flags at the entrance" loading="lazy"></div>
               <p class="post-meta"><time datetime="2026-06-02">02 June</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Blog</span></p>
               <h3 id="milestone-4" class="milestone-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-4">Read more →</a>
+              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-4">Read more&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
             </article>
             <article class="milestone-card">
               <div class="milestone-card__media"><img src="assets/images/news/milestone.jpg" width="900" height="549" alt="Car showroom with a glass facade and flags at the entrance" loading="lazy"></div>
               <p class="post-meta"><time datetime="2026-05-12">12 May</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Blog</span></p>
               <h3 id="milestone-5" class="milestone-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-5">Read more →</a>
+              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-5">Read more&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
             </article>
             <article class="milestone-card">
               <div class="milestone-card__media"><img src="assets/images/news/milestone.jpg" width="900" height="549" alt="Car showroom with a glass facade and flags at the entrance" loading="lazy"></div>
               <p class="post-meta"><time datetime="2026-04-21">21 April</time><img src="assets/icons/news/dot.svg" width="7" height="7" alt=""><span>Blog</span></p>
               <h3 id="milestone-6" class="milestone-card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-6">Read more →</a>
+              <a class="btn-brand btn-brand--block" href="#" aria-describedby="milestone-6">Read more&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
             </article>
           </div>
           <button type="button" class="carousel-arrow carousel-arrow--prev" data-prev aria-label="Previous milestones">
@@ -256,8 +258,8 @@
   <!-- Shared: site footer -->
   <footer class="site-footer">
     <div class="container-wide">
-      <div class="footer-top">
-        <nav aria-labelledby="footer-discover">
+      <div class="footer-top" data-reveal-stagger="120">
+        <nav aria-labelledby="footer-discover" data-reveal="up">
           <h2 id="footer-discover" class="footer-heading">Discover</h2>
           <ul class="footer-links">
             <li><a href="about.html">Our Story</a></li>
@@ -266,7 +268,7 @@
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
-        <nav aria-labelledby="footer-explore">
+        <nav aria-labelledby="footer-explore" data-reveal="up">
           <h2 id="footer-explore" class="footer-heading">Explore</h2>
           <ul class="footer-links">
             <li><a href="residential-projects.html">Residential Projects</a></li>
@@ -275,7 +277,7 @@
             <li><a href="special-projects.html">Special Projects</a></li>
           </ul>
         </nav>
-        <nav aria-labelledby="footer-follow">
+        <nav aria-labelledby="footer-follow" data-reveal="up">
           <h2 id="footer-follow" class="footer-heading footer-heading--heavy">Follow Us</h2>
           <ul class="footer-links">
             <li><a href="#">Instagram</a></li>
@@ -283,18 +285,18 @@
             <li><a href="#">Twitter</a></li>
           </ul>
         </nav>
-        <div class="footer-subscribe">
+        <div class="footer-subscribe" data-reveal="up">
           <h2 class="footer-heading" id="footer-newsletter">Subscribe to our newsletter</h2>
           <form class="subscribe-form" method="post" data-validate data-status="newsletter-status" novalidate aria-labelledby="footer-newsletter">
             <label for="newsletter-email" class="visually-hidden">Email address</label>
             <input type="email" id="newsletter-email" name="email" placeholder="Enter your email address" autocomplete="email" required>
-            <button type="submit">Submit →</button>
+            <button type="submit">Submit&nbsp;<span class="arrow" aria-hidden="true">→</span></button>
           </form>
           <p class="form-status" id="newsletter-status" role="status" hidden>Thank you for subscribing.</p>
         </div>
       </div>
 
-      <div class="footer-bottom">
+      <div class="footer-bottom" data-reveal="fade">
         <p>Copyright © 2026 Albatha Real Estate</p>
         <a href="index.html" class="brand-logo brand-logo--footer" aria-label="Albatha Real Estate home">
           <img class="brand-logo__mark" src="assets/icons/footer-logo-mark.svg" alt="">
@@ -307,6 +309,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+  <script src="assets/js/main.js" defer></script>
   <script src="assets/js/components/scroll-carousel.js" defer></script>
   <script src="assets/js/components/forms.js" defer></script>
 </body>

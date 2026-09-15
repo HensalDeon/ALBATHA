@@ -1,48 +1,81 @@
-/* Reusable UI components. Page-specific styling belongs in css/pages/<page>.css. */
+/* Reusable UI components. Page-specific styling belongs in css/pages/<page>.css.
+   Hover motion sits next to each component; transform-based effects are gated behind
+   prefers-reduced-motion: no-preference. */
 
-/* Buttons */
+/* Buttons: a fill slides in from the left on hover and out to the right.
+   Variants set --btn-bg, --btn-fg, --btn-fill and --btn-fg-hover. */
 
-.btn-glass {
+.btn-glass,
+.btn-brand {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 24px;
-  border: 0;
+  overflow: hidden;
   border-radius: var(--radius-pill);
-  background: radial-gradient(130% 150% at 0% 0%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-  -webkit-backdrop-filter: blur(21px);
-  backdrop-filter: blur(21px);
-  color: #fff;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
   font-size: 14px;
-  font-weight: 800;
   line-height: 14px;
   text-decoration: none;
-  white-space: nowrap;
-  transition: background-color 0.2s;
+  transition: color 0.4s var(--ease);
 }
 
-.btn-glass:hover { background-color: rgba(255, 255, 255, 0.15); color: #fff; }
+.btn-glass::before,
+.btn-brand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-fill);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-inout);
+}
+
+.btn-glass:is(:hover, :focus-visible),
+.btn-brand:is(:hover, :focus-visible) { color: var(--btn-fg-hover); }
+
+.btn-glass:is(:hover, :focus-visible)::before,
+.btn-brand:is(:hover, :focus-visible)::before { transform: scaleX(1); transform-origin: left; }
+
+.btn-glass {
+  --btn-bg: radial-gradient(130% 150% at 0% 0%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+  --btn-fg: #fff;
+  --btn-fill: #fff;
+  --btn-fg-hover: var(--ink);
+  padding: 14px 24px;
+  border: 0;
+  -webkit-backdrop-filter: blur(21px);
+  backdrop-filter: blur(21px);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .btn-glass--outline { min-width: 150px; border: 1px solid #fff; font-weight: 500; }
 
 .btn-brand {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  --btn-bg: var(--brand);
+  --btn-fg: #fff;
+  --btn-fill: var(--brand-hover);
+  --btn-fg-hover: #fff;
   padding: 15px 24px;
   border: 1px solid #fff;
-  border-radius: var(--radius-pill);
-  background: var(--brand);
-  color: #fff;
-  font-size: 14px;
   font-weight: 500;
-  line-height: 14px;
   text-align: center;
-  text-decoration: none;
-  transition: background-color 0.2s;
 }
 
-.btn-brand:hover { background: var(--brand-hover); color: #fff; }
 .btn-brand--block { width: 100%; }
+
+/* Arrow glyph in links and buttons (<span class="arrow" aria-hidden="true">→</span>) nudges forward */
+
+.arrow { display: inline-block; transition: transform 0.4s var(--ease); }
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(a, button):is(:hover, :focus-visible) .arrow { transform: translateX(4px); }
+}
 
 /* Round icon buttons */
 
@@ -58,12 +91,12 @@
   border-radius: 50%;
   background: #fff;
   transform: translateY(-50%);
-  transition: background-color 0.2s, opacity 0.2s;
+  transition: background-color 0.4s var(--ease), opacity 0.4s var(--ease), scale 0.4s var(--ease);
 }
 
 .carousel-arrow:hover:not(:disabled) { background: #f4ecee; }
-.carousel-arrow:disabled { opacity: 0.35; cursor: default; }
-.carousel-arrow img { width: 10.46px; height: 18.08px; transform: translateX(1.5px); }
+.carousel-arrow:disabled { opacity: 0.45; cursor: default; }
+.carousel-arrow img { width: 10.46px; height: 18.08px; transform: translateX(1.5px); transition: transform 0.4s var(--ease); }
 .carousel-arrow--prev img { transform: rotate(180deg) translateX(1.5px); }
 
 .circle-btn {
@@ -76,13 +109,20 @@
   border-radius: 50%;
   background: transparent;
   color: var(--brand);
-  transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease), opacity 0.4s var(--ease), scale 0.4s var(--ease);
 }
 
 .circle-btn:hover:not(:disabled) { background: var(--brand); color: #fff; }
-.circle-btn:disabled { opacity: 0.35; cursor: default; }
+.circle-btn:disabled { opacity: 0.45; cursor: default; }
 .circle-btn svg { width: 7px; height: 11.35px; fill: currentColor; }
 .circle-btn--next svg { transform: rotate(180deg); }
+
+/* `scale` (not transform) so it composes with the arrows' positioning transform. */
+@media (prefers-reduced-motion: no-preference) {
+  :is(.carousel-arrow, .circle-btn):hover:not(:disabled) { scale: 1.08; }
+  .carousel-arrow:hover:not(:disabled) img { transform: translateX(5.5px); }
+  .carousel-arrow--prev:hover:not(:disabled) img { transform: rotate(180deg) translateX(4.5px); }
+}
 
 /* Page hero: full-bleed image with title block bottom-left */
 
@@ -121,6 +161,21 @@
 
 @media (max-width: 991.98px) {
   .page-hero::after { background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.1) 100%); }
+}
+
+/* Hero copy: a soft dark haze behind the text for legibility on bright photography.
+   The hero section must create a stacking context (isolation: isolate). */
+
+.hero-copy { position: relative; }
+
+.hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.3);
+  filter: blur(50px);
+  pointer-events: none;
 }
 
 /* Brand band: maroon strip with the arch pattern on the left */
@@ -166,19 +221,21 @@
   overflow: hidden;
   border-radius: var(--radius);
   background: var(--surface);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 
-.property-card__media { aspect-ratio: 483 / 449; overflow: hidden; }
+.property-card:hover { box-shadow: var(--shadow-lift); }
+
+/* isolation keeps the rounded clip intact while the image scales (Safari). */
+.property-card__media { isolation: isolate; aspect-ratio: 483 / 449; overflow: hidden; }
 
 .property-card__media img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease-out);
+  transition: transform 1.2s var(--ease);
 }
-
-.property-card:hover .property-card__media img { transform: scale(1.03); }
 
 .property-card__body { display: flex; flex-direction: column; flex-grow: 1; padding: 24px; }
 .property-card__title { font-size: var(--fs-title); line-height: 1.2; }
@@ -223,12 +280,19 @@
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.2s;
+  transition: background-color 0.4s var(--ease), transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 
-.view-all-tile:hover { background: var(--brand-hover); color: #fff; }
-.view-all-tile img { width: 19.5px; height: 22.09px; transition: transform 0.2s; }
-.view-all-tile:hover img { transform: translateX(4px); }
+.view-all-tile:hover { background: var(--brand-hover); color: #fff; box-shadow: var(--shadow-lift); }
+.view-all-tile img { width: 19.5px; height: 22.09px; transition: transform 0.4s var(--ease); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .property-card:hover,
+  .view-all-tile:hover { transform: translateY(-6px); }
+
+  .property-card:hover .property-card__media img { transform: scale(1.05); }
+  .view-all-tile:hover img { transform: translateX(4px); }
+}
 
 /* Pagination */
 
@@ -241,18 +305,22 @@
   height: 30px;
   border-radius: 50%;
   background: var(--brand);
-  transition: background-color 0.2s, opacity 0.2s;
+  transition: background-color 0.4s var(--ease), opacity 0.4s var(--ease), scale 0.4s var(--ease);
 }
 
 .pager__btn:hover { background: var(--brand-hover); }
-.pager__btn[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
+.pager__btn[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
 .pager__btn img { width: 3.68px; height: 6.36px; }
 .pager__btn--prev img { transform: rotate(180deg); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .pager__btn:hover { scale: 1.08; }
+}
 
 .pager__status { color: var(--ink-60); font-size: 16px; line-height: 40px; }
 .pager__status strong { color: var(--brand); font-weight: 400; }
 
-/* Scroll carousel: native horizontal scroll with snap, optional arrows and progress bar */
+/* Scroll carousel: native horizontal scroll with snap, optional arrows, progress bar and mouse drag */
 
 .scroll-carousel {
   --gap: 40px;
@@ -265,7 +333,13 @@
   grid-auto-flow: column;
   grid-auto-columns: calc((100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view));
   gap: var(--gap);
+  /* overflow-x: auto silently makes overflow-y auto too, so hover lifts would scroll the track
+     vertically. Clip it, and give cards vertical bleed for lifts and shadows, cancelled by negative
+     margins so the layout is unchanged. */
+  margin-block: -8px -32px;
+  padding-block: 8px 32px;
   overflow-x: auto;
+  overflow-y: hidden;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -273,6 +347,15 @@
 
 .scroll-carousel__track::-webkit-scrollbar { display: none; }
 .scroll-carousel__track > * { scroll-snap-align: start; }
+.scroll-carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .scroll-carousel__track { cursor: grab; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-carousel__track:not(.is-dragging) { scroll-behavior: smooth; }
+}
 
 .scroll-carousel__footer { display: flex; align-items: center; gap: clamp(16px, 2vw, 40px); margin-top: clamp(24px, 2.2vw, 42px); }
 
@@ -289,7 +372,15 @@
   transform: translateY(-50%);
 }
 
-.scroll-carousel__thumb { position: absolute; top: 0; left: 0; width: 25%; height: 2px; background: var(--brand); }
+.scroll-carousel__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25%;
+  height: 2px;
+  background: var(--brand);
+  transition: width 0.25s var(--ease), transform 0.25s var(--ease);
+}
 
 .scroll-carousel__controls { display: flex; flex: none; gap: 16px; }
 .scroll-carousel__controls .carousel-arrow { position: static; transform: none; }
@@ -317,7 +408,7 @@
   justify-self: center;
   width: var(--slide-w);
   transform: translateX(calc(var(--offset, 0) * (var(--slide-w) + var(--col-gap))));
-  transition: transform 0.6s var(--ease-out);
+  transition: transform 0.8s var(--ease-inout);
 }
 
 .peek-slide.is-jumping { transition: none; }
@@ -326,6 +417,11 @@
 .peek-carousel .carousel-arrow--prev { left: clamp(8px, 4.17vw, 80px); }
 .peek-carousel .carousel-arrow--next { right: clamp(8px, 3.75vw, 72px); }
 
+/* Without JS the slides can't rotate, so they simply stack. */
+html:not(.js) .peek-carousel__track { gap: 48px; }
+html:not(.js) .peek-slide { grid-area: auto; transform: none; }
+html:not(.js) .peek-carousel .carousel-arrow { display: none; }
+
 @media (max-width: 991.98px) {
   .peek-carousel { --slide-w: 78vw; }
 }
@@ -333,4 +429,42 @@
 @media (max-width: 575.98px) {
   .peek-carousel { --slide-w: calc(100vw - 56px); }
   .peek-carousel .carousel-arrow { width: 40px; height: 40px; }
+}
+
+/* Carousel progress: one segment per slide of a Bootstrap carousel, moved by main.js */
+
+.carousel-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.carousel-progress__bar {
+  display: block;
+  width: calc(100% / var(--count, 1));
+  height: 100%;
+  background: #fff;
+  transform: translateX(calc(100% * var(--index, 0)));
+  transition: transform 0.7s var(--ease-inout);
+}
+
+/* Disclosure: a panel toggled by <button data-disclosure aria-controls> (main.js).
+   Open by default, so it stays usable without JS. */
+
+.disclosure { display: grid; grid-template-rows: 1fr; }
+
+/* The inline and bottom padding keep focus rings inside the clipped area. */
+.disclosure > * { min-height: 0; margin: 0 -6px -6px; padding: 0 6px 6px; overflow: hidden; }
+
+.disclosure.is-collapsed { grid-template-rows: 0fr; visibility: hidden; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .disclosure { transition: grid-template-rows 0.5s var(--ease-inout), visibility 0s; }
+  .disclosure.is-collapsed { transition: grid-template-rows 0.5s var(--ease-inout), visibility 0s 0.5s; }
 }

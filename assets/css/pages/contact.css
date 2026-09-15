@@ -21,10 +21,10 @@
   background: var(--surface);
   color: var(--ink);
   text-align: left;
-  transition: background-color 0.25s, color 0.25s, box-shadow 0.25s;
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease), box-shadow 0.5s var(--ease), transform 0.5s var(--ease);
 }
 
-.contact-option:hover { box-shadow: var(--shadow-card); }
+.contact-option:hover { box-shadow: var(--shadow-lift); }
 .contact-option[aria-selected="true"] { background: var(--brand); color: #fff; box-shadow: none; }
 
 .contact-option__icon { flex: none; width: 75px; height: 67px; margin-inline-end: clamp(6px, 1.15vw, 22px); }
@@ -48,11 +48,15 @@
   height: 22.0919px;
   color: var(--brand);
   fill: currentColor;
-  transition: transform 0.2s;
+  transition: transform 0.4s var(--ease);
 }
 
 .contact-option[aria-selected="true"] .contact-option__arrow { color: #fff; }
-.contact-option:hover .contact-option__arrow { transform: translateX(4px); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .contact-option:not([aria-selected="true"]):hover { transform: translateY(-6px); }
+  .contact-option:hover .contact-option__arrow { transform: translateX(4px); }
+}
 
 .contact-panels { display: grid; }
 
@@ -230,10 +234,16 @@
   font-size: 16px;
   line-height: 30px;
   text-decoration: none;
-  text-underline-offset: 4px;
 }
 
-a.contact-info__value:hover { color: var(--brand); text-decoration: underline; }
+/* Phone and email links draw their underline in on hover, like .link-brand. */
+a.contact-info__value {
+  width: fit-content;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: color 0.4s var(--ease), background-size 0.45s var(--ease);
+}
+
+a.contact-info__value:is(:hover, :focus-visible) { background-size: 100% 1px; color: var(--brand); }
 
 .contact-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin-top: 20px; }
 

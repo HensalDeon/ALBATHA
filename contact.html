@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add('js');</script>
   <title>Contact Us | Albatha Real Estate</title>
   <meta name="description" content="Contact Albatha Real Estate for general, investment, leasing and corporate enquiries, or find our phone numbers, email address and working hours.">
   <meta name="theme-color" content="#000000">
@@ -18,6 +19,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/layout.css">
   <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
   <link rel="stylesheet" href="assets/css/pages/contact.css">
 </head>
 <body class="page-contact">
@@ -50,7 +52,7 @@
         <span class="brand-logo__tag" aria-hidden="true">with you</span>
       </a>
 
-      <a href="contact.html" class="btn-glass">Let’s Talk →</a>
+      <a href="contact.html" class="btn-glass">Let’s Talk&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
     </div>
   </header>
 
@@ -68,12 +70,12 @@
           <li>
             <div class="site-menu__group">
               <a class="site-menu__link" href="properties-for-sale.html">Properties For Sale</a>
-              <button type="button" class="site-menu__toggle" data-bs-toggle="collapse" data-bs-target="#menu-sale" aria-expanded="true" aria-controls="menu-sale">
+              <button type="button" class="site-menu__toggle" aria-expanded="true" aria-controls="menu-sale" data-disclosure>
                 <span class="visually-hidden">Show or hide Properties For Sale links</span>
                 <svg viewBox="0 0 6 9.73" aria-hidden="true"><path d="M4.86486 9.72973L0 4.86487L4.86486 0L6 1.13514L2.27027 4.86487L6 8.5946L4.86486 9.72973Z"/></svg>
               </button>
             </div>
-            <div class="collapse show" id="menu-sale">
+            <div class="disclosure" id="menu-sale">
               <ul class="site-menu__sub">
                 <li><a class="site-menu__sublink" href="residential-projects.html">Residential Projects</a></li>
                 <li><a class="site-menu__sublink" href="commercial-projects.html">Commercial Projects</a></li>
@@ -84,12 +86,12 @@
           <li>
             <div class="site-menu__group">
               <a class="site-menu__link" href="properties-for-lease.html">Properties For Lease</a>
-              <button type="button" class="site-menu__toggle" data-bs-toggle="collapse" data-bs-target="#menu-lease" aria-expanded="true" aria-controls="menu-lease">
+              <button type="button" class="site-menu__toggle" aria-expanded="true" aria-controls="menu-lease" data-disclosure>
                 <span class="visually-hidden">Show or hide Properties For Lease links</span>
                 <svg viewBox="0 0 6 9.73" aria-hidden="true"><path d="M4.86486 9.72973L0 4.86487L4.86486 0L6 1.13514L2.27027 4.86487L6 8.5946L4.86486 9.72973Z"/></svg>
               </button>
             </div>
-            <div class="collapse show" id="menu-lease">
+            <div class="disclosure" id="menu-lease">
               <ul class="site-menu__sub">
                 <li><a class="site-menu__sublink" href="residential-projects.html">Residential Projects</a></li>
                 <li><a class="site-menu__sublink" href="commercial-projects.html">Commercial Projects</a></li>
@@ -115,11 +117,11 @@
   <main id="main">
 
     <section class="page-hero on-dark" style="--hero-position: center 19%">
-      <img class="page-hero__media" src="assets/images/contact/hero.jpg" width="2200" height="1474" alt="" fetchpriority="high">
+      <img class="page-hero__media" data-parallax="0.2" src="assets/images/contact/hero.jpg" width="2200" height="1474" alt="" fetchpriority="high">
       <div class="container-wide">
-        <div class="page-hero__content">
-          <h1 class="page-hero__title">Built on legacy.<br>Driven by integrity.<br>Trusted for the future.</h1>
-          <p class="page-hero__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+        <div class="page-hero__content hero-copy">
+          <h1 class="page-hero__title" data-reveal="up" data-reveal-delay="150">Built on legacy.<br>Driven by integrity.<br>Trusted for the future.</h1>
+          <p class="page-hero__text" data-reveal="up" data-reveal-delay="300">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
         </div>
       </div>
     </section>
@@ -134,8 +136,8 @@
       <h2 id="contact-options-title" class="visually-hidden">How can we help?</h2>
 
       <div class="container-wide contact-layout" data-contact-tabs>
-        <div class="contact-options" role="tablist" aria-labelledby="contact-options-title" aria-orientation="vertical">
-          <button type="button" class="contact-option" id="tab-general" role="tab" aria-selected="true" aria-controls="panel-enquiry" aria-labelledby="tab-general-title" aria-describedby="tab-general-text" data-hash="general-enquiries" data-enquiry-type="general">
+        <div class="contact-options" data-reveal-stagger="120" role="tablist" aria-labelledby="contact-options-title" aria-orientation="vertical">
+          <button type="button" class="contact-option" data-reveal="up" id="tab-general" role="tab" aria-selected="true" aria-controls="panel-enquiry" aria-labelledby="tab-general-title" aria-describedby="tab-general-text" data-hash="general-enquiries" data-enquiry-type="general">
             <img class="contact-option__icon" src="assets/icons/contact/enquiry.svg" width="75" height="67" alt="">
             <span class="contact-option__body">
               <span class="contact-option__title" id="tab-general-title">General Enquiries</span>
@@ -143,7 +145,7 @@
             </span>
             <svg class="contact-option__arrow" aria-hidden="true" focusable="false"><use href="#icon-arrow-long"/></svg>
           </button>
-          <button type="button" class="contact-option" id="tab-investment" role="tab" aria-selected="false" aria-controls="panel-enquiry" aria-labelledby="tab-investment-title" aria-describedby="tab-investment-text" tabindex="-1" data-hash="investment-opportunities" data-enquiry-type="investment">
+          <button type="button" class="contact-option" data-reveal="up" id="tab-investment" role="tab" aria-selected="false" aria-controls="panel-enquiry" aria-labelledby="tab-investment-title" aria-describedby="tab-investment-text" tabindex="-1" data-hash="investment-opportunities" data-enquiry-type="investment">
             <img class="contact-option__icon" src="assets/icons/contact/enquiry.svg" width="75" height="67" alt="">
             <span class="contact-option__body">
               <span class="contact-option__title" id="tab-investment-title">Investment Opportunities</span>
@@ -151,7 +153,7 @@
             </span>
             <svg class="contact-option__arrow" aria-hidden="true" focusable="false"><use href="#icon-arrow-long"/></svg>
           </button>
-          <button type="button" class="contact-option" id="tab-leasing" role="tab" aria-selected="false" aria-controls="panel-enquiry" aria-labelledby="tab-leasing-title" aria-describedby="tab-leasing-text" tabindex="-1" data-hash="leasing-enquiries" data-enquiry-type="leasing">
+          <button type="button" class="contact-option" data-reveal="up" id="tab-leasing" role="tab" aria-selected="false" aria-controls="panel-enquiry" aria-labelledby="tab-leasing-title" aria-describedby="tab-leasing-text" tabindex="-1" data-hash="leasing-enquiries" data-enquiry-type="leasing">
             <img class="contact-option__icon" src="assets/icons/contact/enquiry.svg" width="75" height="67" alt="">
             <span class="contact-option__body">
               <span class="contact-option__title" id="tab-leasing-title">Leasing Enquiries</span>
@@ -159,7 +161,7 @@
             </span>
             <svg class="contact-option__arrow" aria-hidden="true" focusable="false"><use href="#icon-arrow-long"/></svg>
           </button>
-          <button type="button" class="contact-option" id="tab-corporate" role="tab" aria-selected="false" aria-controls="panel-enquiry" aria-labelledby="tab-corporate-title" aria-describedby="tab-corporate-text" tabindex="-1" data-hash="corporate-office" data-enquiry-type="corporate">
+          <button type="button" class="contact-option" data-reveal="up" id="tab-corporate" role="tab" aria-selected="false" aria-controls="panel-enquiry" aria-labelledby="tab-corporate-title" aria-describedby="tab-corporate-text" tabindex="-1" data-hash="corporate-office" data-enquiry-type="corporate">
             <img class="contact-option__icon" src="assets/icons/contact/enquiry.svg" width="75" height="67" alt="">
             <span class="contact-option__body">
               <span class="contact-option__title" id="tab-corporate-title">Corporate Office</span>
@@ -167,7 +169,7 @@
             </span>
             <svg class="contact-option__arrow" aria-hidden="true" focusable="false"><use href="#icon-arrow-long"/></svg>
           </button>
-          <button type="button" class="contact-option" id="tab-details" role="tab" aria-selected="false" aria-controls="panel-details" aria-labelledby="tab-details-title" aria-describedby="tab-details-text" tabindex="-1" data-hash="contact-details">
+          <button type="button" class="contact-option" data-reveal="up" id="tab-details" role="tab" aria-selected="false" aria-controls="panel-details" aria-labelledby="tab-details-title" aria-describedby="tab-details-text" tabindex="-1" data-hash="contact-details">
             <img class="contact-option__icon" src="assets/icons/contact/enquiry.svg" width="75" height="67" alt="">
             <span class="contact-option__body">
               <span class="contact-option__title" id="tab-details-title">Contact Details</span>
@@ -177,7 +179,7 @@
           </button>
         </div>
 
-        <div class="contact-panels">
+        <div class="contact-panels" data-reveal="up" data-reveal-delay="150">
           <div class="contact-panel" id="panel-enquiry" role="tabpanel" aria-labelledby="tab-general">
             <h2 id="enquiry-title" class="contact-panel__title">Send us an enquiry</h2>
             <p id="enquiry-intro" class="contact-panel__intro text-body-60">Please fill in the form below and our team will get back to you shortly</p>
@@ -312,8 +314,8 @@
   <!-- Shared: site footer -->
   <footer class="site-footer">
     <div class="container-wide">
-      <div class="footer-top">
-        <nav aria-labelledby="footer-discover">
+      <div class="footer-top" data-reveal-stagger="120">
+        <nav aria-labelledby="footer-discover" data-reveal="up">
           <h2 id="footer-discover" class="footer-heading">Discover</h2>
           <ul class="footer-links">
             <li><a href="about.html">Our Story</a></li>
@@ -322,7 +324,7 @@
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
-        <nav aria-labelledby="footer-explore">
+        <nav aria-labelledby="footer-explore" data-reveal="up">
           <h2 id="footer-explore" class="footer-heading">Explore</h2>
           <ul class="footer-links">
             <li><a href="residential-projects.html">Residential Projects</a></li>
@@ -331,7 +333,7 @@
             <li><a href="special-projects.html">Special Projects</a></li>
           </ul>
         </nav>
-        <nav aria-labelledby="footer-follow">
+        <nav aria-labelledby="footer-follow" data-reveal="up">
           <h2 id="footer-follow" class="footer-heading footer-heading--heavy">Follow Us</h2>
           <ul class="footer-links">
             <li><a href="#">Instagram</a></li>
@@ -339,18 +341,18 @@
             <li><a href="#">Twitter</a></li>
           </ul>
         </nav>
-        <div class="footer-subscribe">
+        <div class="footer-subscribe" data-reveal="up">
           <h2 class="footer-heading" id="footer-newsletter">Subscribe to our newsletter</h2>
           <form class="subscribe-form" method="post" data-validate data-status="newsletter-status" novalidate aria-labelledby="footer-newsletter">
             <label for="newsletter-email" class="visually-hidden">Email address</label>
             <input type="email" id="newsletter-email" name="email" placeholder="Enter your email address" autocomplete="email" required>
-            <button type="submit">Submit →</button>
+            <button type="submit">Submit&nbsp;<span class="arrow" aria-hidden="true">→</span></button>
           </form>
           <p class="form-status" id="newsletter-status" role="status" hidden>Thank you for subscribing.</p>
         </div>
       </div>
 
-      <div class="footer-bottom">
+      <div class="footer-bottom" data-reveal="fade">
         <p>Copyright © 2026 Albatha Real Estate</p>
         <a href="index.html" class="brand-logo brand-logo--footer" aria-label="Albatha Real Estate home">
           <img class="brand-logo__mark" src="assets/icons/footer-logo-mark.svg" alt="">
@@ -363,6 +365,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+  <script src="assets/js/main.js" defer></script>
   <script src="assets/js/components/forms.js" defer></script>
   <script src="assets/js/pages/contact.js" defer></script>
 </body>

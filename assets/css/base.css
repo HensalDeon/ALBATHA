@@ -55,6 +55,7 @@
   --radius: 10px;
   --radius-pill: 50px;
   --shadow-card: 2px 2px 10.6px rgba(0, 0, 0, 0.12);
+  --shadow-lift: 0 18px 40px rgba(0, 0, 0, 0.08);
 
   --gutter: clamp(16px, 5.21vw, 100px);
   --col-gap: clamp(16px, 2.6vw, 50px);
@@ -64,7 +65,8 @@
   --fs-title: clamp(1.25rem, 1.05rem + 0.5vw, 1.5rem);
 
   --font-sans: "Univers Next Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1); /* soft ease-out: most motion */
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1); /* masks, fills, menus */
 
   --bs-body-font-family: var(--font-sans);
   --bs-body-bg: var(--page-bg);
@@ -137,17 +139,22 @@ img, svg { vertical-align: middle; }
 
 .link-brand,
 .link-light {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
-  text-underline-offset: 4px;
+  transition: background-size 0.45s var(--ease);
 }
 
 .link-brand { color: var(--brand); }
 .link-light { color: #fff; font-size: 14px; }
 
-.link-brand:hover { color: var(--brand); text-decoration: underline; }
-.link-light:hover { color: #fff; text-decoration: underline; }
+/* The underline draws in from the left on hover. */
+.link-brand:is(:hover, :focus-visible),
+.link-light:is(:hover, :focus-visible) { background-size: 100% 1px; }
+
+.link-brand:hover { color: var(--brand); }
+.link-light:hover { color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

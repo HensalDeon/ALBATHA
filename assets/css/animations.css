@@ -1,0 +1,93 @@
+/* Motion system: scroll reveal, parallax headroom and ambient keyframes (see README "Motion").
+   Hover micro-interactions live next to their components.
+   Anything that hides content or moves on its own is gated behind .js (added inline in <head>) and
+   prefers-reduced-motion: no-preference, so content is always visible without JS or with reduced motion. */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll reveal: data-reveal="up | down | left | right | fade | zoom | mask | mask-left" */
+
+  .js [data-reveal] {
+    opacity: 0;
+    transition-property: opacity, transform, clip-path;
+    transition-duration: 1s;
+    transition-timing-function: var(--ease);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .js [data-reveal="up"] { transform: translate3d(0, 48px, 0); }
+  .js [data-reveal="down"] { transform: translate3d(0, -32px, 0); }
+  .js [data-reveal="left"] { transform: translate3d(-56px, 0, 0); }
+  .js [data-reveal="right"] { transform: translate3d(56px, 0, 0); }
+  .js [data-reveal="zoom"] { transform: scale(0.92); }
+
+  .js [data-reveal="mask"],
+  .js [data-reveal="mask-left"] {
+    opacity: 1;
+    transition-duration: 1.4s;
+    transition-timing-function: var(--ease-inout);
+  }
+
+  .js [data-reveal="mask"] { clip-path: inset(100% 0 0 0); }
+  .js [data-reveal="mask-left"] { clip-path: inset(0 0 0 100%); }
+
+  .js [data-reveal].is-revealed { opacity: 1; transform: none; }
+
+  /* Only masks keep a clip-path while revealing. main.js also removes [data-reveal] once the entrance
+     has finished, so shadows, hover lifts and overflowing decorations are never cropped afterwards. */
+  .js [data-reveal^="mask"].is-revealed { clip-path: inset(0 0 0 0); }
+
+  /* Parallax: data-parallax="speed" on an absolutely positioned media layer inside an overflow-hidden
+     parent. 12% headroom above and below; main.js clamps the travel to 10% of the parent's height.
+     (An absolutely positioned <img> ignores `bottom`, so the height is set explicitly.) */
+
+  .js [data-parallax] {
+    top: -12%;
+    bottom: auto;
+    height: 124%;
+    will-change: transform;
+  }
+
+  /* Hero images settle with a slow zoom-out on load. The individual `scale` property composes with the
+     parallax transform on the same element instead of overriding it. */
+
+  .home-hero__media,
+  .page-hero__media,
+  .about-hero__media,
+  .project-hero .carousel-inner {
+    animation: hero-settle 2.8s var(--ease) both;
+  }
+
+  /* Ambient loops: the only motion that repeats */
+
+  .scroll-cue__icon { animation: bob 2.2s ease-in-out infinite; }
+
+  /* Floating CTA button: expanding ring (the button needs position: relative and a border-radius) */
+  .fab::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid currentColor;
+    border-radius: inherit;
+    pointer-events: none;
+    animation: pulse 2.6s var(--ease) infinite;
+  }
+}
+
+@keyframes hero-settle {
+  from { scale: 1.12; }
+  to { scale: 1; }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; transform: scale(1); }
+  80%, 100% { opacity: 0; transform: scale(1.6); }
+}
+
+@media print {
+  .js [data-reveal] { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+}

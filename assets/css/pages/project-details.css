@@ -13,20 +13,32 @@
   backdrop-filter: blur(3.1px);
   box-shadow: 0 4px 8.9px rgba(0, 0, 0, 0.25);
   opacity: 1;
-  transition: background-color 0.2s, opacity 0.2s;
+  transition: background-color 0.4s var(--ease), opacity 0.4s var(--ease), scale 0.4s var(--ease);
 }
 
 .glass-arrow:hover:not(:disabled) { background: rgba(255, 255, 255, 0.5); }
-.glass-arrow:disabled { opacity: 0.35; cursor: default; }
-.glass-arrow img { width: 10.46px; height: 18.08px; transform: translateX(1.5px); }
+.glass-arrow:disabled { opacity: 0.45; cursor: default; }
+.glass-arrow img { width: 10.46px; height: 18.08px; transform: translateX(1.5px); transition: transform 0.4s var(--ease); }
 .glass-arrow--prev img { transform: rotate(180deg) translateX(1.5px); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .glass-arrow:hover:not(:disabled) { scale: 1.08; }
+  .glass-arrow:hover:not(:disabled) img { transform: translateX(5.5px); }
+  .glass-arrow--prev:hover:not(:disabled) img { transform: rotate(180deg) translateX(4.5px); }
+}
 .glass-arrow--outline { border: 1px solid #fff; box-shadow: none; }
 
 .project-contact-btn { text-transform: uppercase; }
 
 /* Hero slider (Bootstrap carousel) */
 
+.project-hero { overflow: hidden; }
 .project-hero .carousel-item { height: clamp(360px, 48.96vw, 940px); }
+
+/* Slow crossfade between slides. Bootstrap reads these durations to time each slide change. */
+.project-hero.carousel-fade .carousel-item { transition-duration: 1.2s; transition-timing-function: var(--ease-inout); }
+.project-hero.carousel-fade .active.carousel-item-start,
+.project-hero.carousel-fade .active.carousel-item-end { transition: opacity 0s 1.2s; }
 
 .project-hero .carousel-item::after {
   content: "";
@@ -66,7 +78,7 @@
   border-radius: 6px;
   background: #fff;
   box-shadow: var(--shadow-card);
-  transition: width 0.3s var(--ease-out);
+  transition: width 0.7s var(--ease-inout);
 }
 
 .project-hero .carousel-indicators .active::before { width: 32px; }
@@ -139,9 +151,6 @@
 .project-floorplans { padding-block: clamp(56px, 6.1vw, 117px) clamp(56px, 5.2vw, 100px); }
 
 .project-floorplans__carousel { --gap: clamp(20px, 3.2vw, 61px); --per-view-sm: 1.2; }
-
-/* Room for the card shadow, which the scrolling track would otherwise clip. */
-.project-floorplans__carousel .scroll-carousel__track { margin-block: -12px; padding-block: 12px; }
 
 .floorplan-card {
   display: flex;
