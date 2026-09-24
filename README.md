@@ -142,8 +142,10 @@ Conventions:
   - `about/tower.jpg` only exists at 800×1200 in Figma and looks soft full-width — request a larger original.
 ## Page notes
 
-- **Contact** selects a panel from the URL hash, so other pages can deep-link:
-  `contact.html#general-enquiries`, `#investment-opportunities`, `#leasing-enquiries`, `#corporate-office`, `#contact-details`.
+- **Contact** selects an enquiry type from the URL hash, so other pages can deep-link:
+  `contact.html#general-enquiries`, `#investment-opportunities`, `#leasing-enquiries`, `#corporate-office`.
+  The contact details (map, phones, email, working hours) are their own block below the enquiry options —
+  `#contact-details` is a plain anchor to it — with the map beside the details, stacking under 992px.
 - **About** year timeline and **Contact** options are ARIA tab lists (arrow keys, Home/End).
 - **Placeholder copy**: where Figma uses lorem ipsum (news cards, timeline years, project details), the build keeps it
   rather than inventing company facts.

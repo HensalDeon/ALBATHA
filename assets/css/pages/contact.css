@@ -70,7 +70,8 @@
   scroll-margin-top: 16px;
 }
 
-.contact-panel__title { color: var(--brand); font-size: var(--fs-title); line-height: clamp(36px, 2.92vw, 56px); }
+.contact-panel__title,
+.contact-details__title { color: var(--brand); font-size: var(--fs-title); line-height: clamp(36px, 2.92vw, 56px); }
 .contact-panel__intro { margin-top: clamp(4px, 0.73vw, 14px); }
 
 /* Enquiry form */
@@ -182,17 +183,32 @@
   .contact-consent__input:checked { background: Highlight; }
 }
 
-/* Contact details */
+/* Contact details: its own block below the enquiry options, map beside the details */
+
+.contact-details { padding-bottom: clamp(48px, 5.21vw, 100px); }
+
+.contact-details__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 815fr) minmax(0, 848fr);
+  gap: clamp(24px, 2.08vw, 40px);
+}
 
 .contact-details__map {
   display: block;
   width: 100%;
-  min-height: 260px;
-  aspect-ratio: 1400 / 535;
-  margin-top: 24px;
+  height: 100%;
+  min-height: clamp(280px, 30vw, 560px);
   border: 0;
   border-radius: var(--radius);
   background: #e5e3df;
+}
+
+/* Sized like the enquiry panel, and the container the phone and card layouts respond to. */
+.contact-details__body {
+  container-type: inline-size;
+  padding: 32px clamp(16px, 1.25vw, 24px);
+  border-radius: var(--radius);
+  background: var(--brand-tint);
 }
 
 .contact-details__subtitle {
@@ -271,7 +287,10 @@ a.contact-info__value:is(:hover, :focus-visible) { background-size: 100% 1px; co
 }
 
 @media (max-width: 991.98px) {
-  .contact-layout { grid-template-columns: minmax(0, 1fr); }
+  .contact-layout,
+  .contact-details__grid { grid-template-columns: minmax(0, 1fr); }
+
+  .contact-details__map { min-height: clamp(260px, 45vw, 420px); }
 }
 
 @media (max-width: 575.98px) {
@@ -285,6 +304,8 @@ a.contact-info__value:is(:hover, :focus-visible) { background-size: 100% 1px; co
   .contact-dial:has(.contact-dial__flag[hidden]) .contact-dial__select { padding-left: 12px; }
   .contact-option__text { margin-top: 4px; font-size: 14px; line-height: 24px; }
   .contact-option__arrow { width: 22px; height: 16px; }
-  .contact-panel { padding-block: 24px; }
+  .contact-panel,
+  .contact-details__body { padding-block: 24px; }
+
   .contact-info { gap: 16px; }
 }

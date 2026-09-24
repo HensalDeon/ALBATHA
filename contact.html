@@ -169,14 +169,6 @@
             </span>
             <svg class="contact-option__arrow" aria-hidden="true" focusable="false"><use href="#icon-arrow-long"/></svg>
           </button>
-          <button type="button" class="contact-option" data-reveal="up" id="tab-details" role="tab" aria-selected="false" aria-controls="panel-details" aria-labelledby="tab-details-title" aria-describedby="tab-details-text" tabindex="-1" data-hash="contact-details">
-            <img class="contact-option__icon" src="assets/icons/contact/enquiry.svg" width="75" height="67" alt="">
-            <span class="contact-option__body">
-              <span class="contact-option__title" id="tab-details-title">Contact Details</span>
-              <span class="contact-option__text" id="tab-details-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</span>
-            </span>
-            <svg class="contact-option__arrow" aria-hidden="true" focusable="false"><use href="#icon-arrow-long"/></svg>
-          </button>
         </div>
 
         <div class="contact-panels" data-reveal="up" data-reveal-delay="150">
@@ -252,55 +244,58 @@
             </form>
             <p class="form-status" id="enquiry-status" role="status" hidden>Thank you. Your enquiry has been sent and our team will get back to you shortly.</p>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="contact-panel" id="panel-details" role="tabpanel" aria-labelledby="tab-details" hidden>
-            <h2 class="contact-panel__title">Our contact details</h2>
-            <iframe class="contact-details__map" src="https://www.google.com/maps?q=Palm+Jebel+Ali,+Dubai&amp;z=12&amp;hl=en&amp;output=embed" title="Map showing our location in Dubai" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    <section class="contact-details" id="contact-details" aria-labelledby="contact-details-title">
+      <div class="container-wide contact-details__grid">
+        <iframe class="contact-details__map" data-reveal="mask-left" src="https://www.google.com/maps?q=Palm+Jebel+Ali,+Dubai&amp;z=12&amp;hl=en&amp;output=embed" title="Map showing our location in Dubai" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
 
-            <h3 class="contact-details__subtitle">Contact us now</h3>
-            <div class="contact-phones">
-              <div class="contact-info">
-                <img class="contact-info__icon" src="assets/icons/contact/phone.svg" width="24" height="24" alt="">
-                <div>
-                  <h4 class="contact-info__title">Office</h4>
-                  <a class="contact-info__value" href="tel:+971212342543">+971 21 2342 543</a>
-                </div>
+        <div class="contact-details__body">
+          <h2 id="contact-details-title" class="contact-details__title" data-reveal="up" data-reveal-delay="100">Our contact details</h2>
+          <h3 class="contact-details__subtitle" data-reveal="up" data-reveal-delay="200">Contact us now</h3>
+          <div class="contact-phones" data-reveal="up" data-reveal-delay="250">
+            <div class="contact-info">
+              <img class="contact-info__icon" src="assets/icons/contact/phone.svg" width="24" height="24" alt="">
+              <div>
+                <h4 class="contact-info__title">Office</h4>
+                <a class="contact-info__value" href="tel:+971212342543">+971 21 2342 543</a>
               </div>
-              <span class="contact-phones__divider" aria-hidden="true"></span>
-              <div class="contact-info">
-                <img class="contact-info__icon" src="assets/icons/contact/phone.svg" width="24" height="24" alt="">
-                <div>
-                  <h4 class="contact-info__title">Sale and Leasing</h4>
-                  <a class="contact-info__value" href="tel:+971212342543">+971 21 2342 543</a>
-                </div>
+            </div>
+            <span class="contact-phones__divider" aria-hidden="true"></span>
+            <div class="contact-info">
+              <img class="contact-info__icon" src="assets/icons/contact/phone.svg" width="24" height="24" alt="">
+              <div>
+                <h4 class="contact-info__title">Sale and Leasing</h4>
+                <a class="contact-info__value" href="tel:+971212342543">+971 21 2342 543</a>
               </div>
-              <span class="contact-phones__divider" aria-hidden="true"></span>
+            </div>
+            <span class="contact-phones__divider" aria-hidden="true"></span>
+            <div class="contact-info">
+              <img class="contact-info__icon" src="assets/icons/contact/phone.svg" width="24" height="24" alt="">
+              <div>
+                <h4 class="contact-info__title">Maintenance</h4>
+                <a class="contact-info__value" href="tel:+971212342543">+971 21 2342 543</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-cards" data-reveal-stagger="120">
+            <div class="contact-card" data-reveal="up">
               <div class="contact-info">
-                <img class="contact-info__icon" src="assets/icons/contact/phone.svg" width="24" height="24" alt="">
+                <img class="contact-info__icon" src="assets/icons/contact/mail.svg" width="24" height="24" alt="">
                 <div>
-                  <h4 class="contact-info__title">Maintenance</h4>
-                  <a class="contact-info__value" href="tel:+971212342543">+971 21 2342 543</a>
+                  <h4 class="contact-info__title">Email</h4>
+                  <a class="contact-info__value" href="mailto:abcd@gmail.com">abcd@gmail.com</a>
                 </div>
               </div>
             </div>
-
-            <div class="contact-cards">
-              <div class="contact-card">
-                <div class="contact-info">
-                  <img class="contact-info__icon" src="assets/icons/contact/mail.svg" width="24" height="24" alt="">
-                  <div>
-                    <h4 class="contact-info__title">Email</h4>
-                    <a class="contact-info__value" href="mailto:abcd@gmail.com">abcd@gmail.com</a>
-                  </div>
-                </div>
-              </div>
-              <div class="contact-card">
-                <div class="contact-info">
-                  <img class="contact-info__icon" src="assets/icons/contact/location.svg" width="24" height="24" alt="">
-                  <div>
-                    <h4 class="contact-info__title">Working time</h4>
-                    <p class="contact-info__value">Monday - Friday<br>08:00 AM to 05:00 PM</p>
-                  </div>
+            <div class="contact-card" data-reveal="up">
+              <div class="contact-info">
+                <img class="contact-info__icon" src="assets/icons/contact/location.svg" width="24" height="24" alt="">
+                <div>
+                  <h4 class="contact-info__title">Working time</h4>
+                  <p class="contact-info__value">Monday - Friday<br>08:00 AM to 05:00 PM</p>
                 </div>
               </div>
             </div>
