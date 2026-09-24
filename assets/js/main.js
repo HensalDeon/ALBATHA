@@ -155,38 +155,55 @@
         const key = `${window.innerWidth}x${window.innerHeight}`;
         if (!wipe || key === viewport) return;
         viewport = key;
-        header = parseFloat(getComputedStyle(root).getPropertyValue('--header-height')) || 0;
         const scale = Math.max(window.innerWidth / Math.max(1, wipe.offsetWidth),
                                window.innerHeight / Math.max(1, wipe.offsetHeight)) * 1.15;
         section.style.setProperty('--wipe-scale-max', scale.toFixed(2));
       };
 
       const root = document.documentElement;
+      const next = section.nextElementSibling;
       let snapping = null;
-      let header = 0;
+      let advanced = false;
+      let settling = false; // the hand-off scroll is in flight
 
       onScroll(() => {
         sizeWipe();
         const distance = section.offsetHeight - window.innerHeight;
         if (distance <= 0) return;
 
-        const scrolled = -section.getBoundingClientRect().top;
-        const progress = Math.min(1, Math.max(0, scrolled / distance));
+        const progress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / distance));
         section.style.setProperty('--scroll-progress', progress.toFixed(4));
 
-        // Past the animation the hero unpins and scrolls away; fade the overlay back out across that
-        // stretch so it leaves on the scene rather than sitting on a white screen.
-        const exitDistance = Math.max(1, window.innerHeight - header);
-        const exit = Math.min(1, Math.max(0, (scrolled - distance) / exitDistance));
-        section.style.setProperty('--hero-exit', exit.toFixed(3));
-
         // Snap scrolling would fight the scrubbing, pulling the scroll off mid-animation, so it stays
-        // off until the hero has both played out and scrolled away — at which point the scroll is
-        // already sitting on the next section's snap point.
-        const wanted = progress < 1 || exit < 1 ? 'none' : '';
+        // off until the hero has played out — and until the hand-off below has landed, or the browser
+        // re-targets that scroll mid-flight and it lurches.
+        const wanted = progress < 1 || settling ? 'none' : '';
         if (wanted !== snapping) {
           snapping = wanted;
           root.style.scrollSnapType = wanted;
+        }
+
+        // The arch has covered the scene: carry on to the next section rather than leaving the rest of
+        // the hero to be scrolled through. Scrolling back up into the hero arms it again.
+        if (progress < 0.98) advanced = false;
+        if (progress >= 1 && !advanced && next) {
+          advanced = true;
+          settling = true;
+          snapping = 'none';
+          root.style.scrollSnapType = 'none';
+
+          // Land where the section's own snap point is, or snapping immediately drags it again.
+          const header = parseFloat(getComputedStyle(root).getPropertyValue('--header-height')) || 0;
+          window.scrollTo({ top: Math.round(next.getBoundingClientRect().top + window.scrollY - header), behavior: 'smooth' });
+
+          // Hand snapping back once the scroll has come to rest.
+          const done = () => {
+            settling = false;
+            snapping = '';
+            root.style.scrollSnapType = '';
+          };
+          if ('onscrollend' in window) window.addEventListener('scrollend', done, { once: true });
+          else setTimeout(done, 800);
         }
 
         // The copy clears out over the opening, before the arch of light takes the screen.
