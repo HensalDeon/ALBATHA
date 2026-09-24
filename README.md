@@ -40,6 +40,7 @@ python3 -m http.server 8765
     │   └── pages/              Page-only behaviour
     ├── icons/                  SVG icons (page-specific ones in sub-folders)
     ├── images/                 Optimised photography, grouped by page
+    ├── videos/                 Hero video
     └── fonts/                  Licensed web fonts (see "Fonts")
 ```
 
@@ -78,6 +79,7 @@ Slow, soft and editorial; never bouncy. Plain CSS (`animations.css`, plus hover 
 | `data-reveal-delay="150"` | Delay in ms |
 | `data-reveal-stagger="120"` (on a parent) | Adds `index × 120ms` to each direct `[data-reveal]` child |
 | `data-parallax="0.2"` | Parallax on an absolutely positioned image inside an `overflow: hidden` parent |
+| `data-scroll-hero` | Publishes the section's scroll position as `--scroll-progress` (0–1); the section's height is the scroll distance |
 | `data-carousel-progress` | Progress bar for a Bootstrap carousel |
 | `data-disclosure` (+ `aria-controls`) | Toggles a `.disclosure` panel (menu sub-lists) |
 
@@ -94,6 +96,17 @@ Conventions:
   nothing stays clipped. Don't nest reveals, and don't put one on an element with its own `transform`; reveal a wrapper.
 - Nothing loops except `.scroll-cue__icon` and the `.fab` pulse, both ready in `animations.css` but unused because the
   design has no scroll cue or floating button.
+- The home hero animates on scroll from one still (`assets/images/home/hero.jpg`): the section is `200svh` tall with a
+  sticky one-screen stage and `main.js` publishes `--scroll-progress`. A translucent brand arch
+  (`assets/images/shared/arch.svg`) rises from below the screen, settles, then zooms until it covers the scene, while
+  the photo pushes in and the copy fades over the opening. The next section stays off-screen throughout; once the arch
+  has covered the scene, `main.js` scrolls on to it. Snap scrolling is switched off while the hero scrubs (it would
+  pull the scroll off mid-animation) and back on at the end. Only `transform`, `scale` and `opacity` animate, so there
+  is nothing to decode or download beyond the still. Without JS or with reduced motion the hero is simply the still.
+- **Snap scrolling** (all pages): `scroll-snap-type: y mandatory` on the root, with every `<section>` inside
+  `[data-snap-sections]` (each page's `<main>`) and the footer as snap stops, so scrolling moves section to section.
+  Sections taller than the screen stay readable — the browser allows scrolling within an oversized snap area.
+  `--header-height` (via `scroll-padding-top`) keeps a snapped section clear of the sticky header.
 
 ## Figma frames
 

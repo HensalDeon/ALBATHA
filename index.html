@@ -114,14 +114,19 @@
     </div>
   </div>
 
-  <main id="main">
+  <main id="main" data-snap-sections>
 
-    <section class="home-hero on-dark">
-      <img class="home-hero__media" data-parallax="0.2" src="assets/images/home/hero.jpg" width="1920" height="1080" alt="" fetchpriority="high">
-      <div class="container-wide">
-        <div class="home-hero__content hero-copy">
-          <h1 class="home-hero__title" data-reveal="up" data-reveal-delay="150">Built on legacy.<br>Driven by integrity.<br>Trusted for the future.</h1>
-          <a class="link-light" href="properties-for-sale.html" data-reveal="up" data-reveal-delay="300">Explore our properties&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
+    <!-- Scroll drives the arch of light growing out of the archway (main.js sets --scroll-progress).
+         Without JS or with reduced motion this is the still hero. -->
+    <section class="home-hero on-dark" data-scroll-hero>
+      <div class="home-hero__stage">
+        <img class="home-hero__media" src="assets/images/home/hero.jpg" width="1920" height="1080" alt="" fetchpriority="high">
+        <div class="home-hero__wipe" aria-hidden="true"></div>
+        <div class="container-wide">
+          <div class="home-hero__content hero-copy">
+            <h1 class="home-hero__title" data-reveal="up" data-reveal-delay="150">Built on legacy.<br>Driven by integrity.<br>Trusted for the future.</h1>
+            <a class="link-light" href="properties-for-sale.html" data-reveal="up" data-reveal-delay="300">Explore our properties&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
+          </div>
         </div>
       </div>
     </section>

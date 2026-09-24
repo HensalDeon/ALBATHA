@@ -50,7 +50,6 @@
   /* Hero images settle with a slow zoom-out on load. The individual `scale` property composes with the
      parallax transform on the same element instead of overriding it. */
 
-  .home-hero__media,
   .page-hero__media,
   .about-hero__media,
   .project-hero .carousel-inner {

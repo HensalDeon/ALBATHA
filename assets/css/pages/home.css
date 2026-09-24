@@ -1,6 +1,10 @@
-/* Hero */
+/* Hero: a video scrubbed by the page scroll (main.js). The section's height is the scrub distance and
+   the stage inside it sticks for one screen. Without JS or with reduced motion it is a normal hero
+   showing the video's poster frame. */
 
-.home-hero {
+.home-hero { position: relative; color: #fff; }
+
+.home-hero__stage {
   position: relative;
   isolation: isolate;
   display: flex;
@@ -8,19 +12,78 @@
   min-height: clamp(520px, calc(100svh - 115px), 965px);
   padding-block: 120px clamp(56px, 7.8vw, 150px);
   overflow: hidden;
-  color: #fff;
 }
 
-.home-hero > .container-wide { width: 100%; }
+.home-hero__stage > .container-wide { width: 100%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-scroll-hero] { height: 200svh; }
+
+  .js [data-scroll-hero] .home-hero__stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+  }
+
+  /* The scene pushes in a little across the whole scroll. */
+  .js [data-scroll-hero] .home-hero__media { scale: calc(1 + var(--scroll-progress, 0) * 0.12); }
+
+  /* First the arch rises into place, then it zooms (main.js sizes --wipe-scale-max for the viewport, so
+     it only reaches screen-covering size at the very end). It stays translucent throughout. */
+  .js [data-scroll-hero] .home-hero__wipe {
+    --rise: clamp(0, calc(var(--scroll-progress, 0) / 0.32), 1);
+    --zoom: clamp(0, calc((var(--scroll-progress, 0) - 0.28) / 0.72), 1);
+    transform:
+      translate(-50%, calc(-50% + (1 - var(--rise)) * 90vh))
+      scale(calc(1 + var(--zoom) * (var(--wipe-scale-max, 8) - 1)));
+    opacity: calc(clamp(0, calc(var(--scroll-progress, 0) * 14), 1) * 0.5);
+  }
+
+  /* White fills the corners the arch cannot reach, right at the end. */
+  .js [data-scroll-hero] .home-hero__stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: #fff;
+    opacity: clamp(0, calc((var(--scroll-progress, 0) - 0.8) * 5), 1);
+    pointer-events: none;
+  }
+
+  /* The copy fades out early, while the opening frames are still dark: the middle of the video is
+     near-white, where white text would be unreadable. main.js sets the value and hides the faded
+     copy from keyboard focus. */
+  .js [data-scroll-hero] .home-hero__content { opacity: var(--hero-copy-opacity, 1); }
+}
 
 .home-hero__media {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center bottom;
+}
+
+/* The arch of light: a translucent pane of the brand arch. It rises from below the screen, settles in
+   the middle, then zooms until it fills the view — as in the reference film. The hero's scroll ends as
+   it fills, so the next section follows straight on. */
+.home-hero__wipe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: 35%;
+  aspect-ratio: 33.9849 / 49.8857;
+  background: #fff;
+  -webkit-mask: url("../../images/shared/arch.svg") center / contain no-repeat;
+  mask: url("../../images/shared/arch.svg") center / contain no-repeat;
+  opacity: 0;
+  /* A touch of blur (which grows with the shape) keeps it reading as light, not a pasted cut-out. */
+  filter: blur(1.5px);
+  pointer-events: none;
 }
 
 .home-hero__content { width: fit-content; max-width: 100%; }

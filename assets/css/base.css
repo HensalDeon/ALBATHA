@@ -65,6 +65,7 @@
   --fs-title: clamp(1.25rem, 1.05rem + 0.5vw, 1.5rem);
 
   --font-sans: "Univers Next Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --header-height: 115px;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1); /* soft ease-out: most motion */
   --ease-inout: cubic-bezier(0.65, 0, 0.35, 1); /* masks, fills, menus */
 
@@ -78,6 +79,25 @@
 }
 
 .page-home { --bs-body-bg: var(--page-bg-home); }
+
+/* Snap scrolling: each section (and the footer) is a stop, so scrolling moves section to section.
+   scroll-padding keeps a snapped section clear of the sticky header and does the same for anchor links.
+   Sections taller than the screen stay readable: the browser lets the scroll move within them. */
+
+:root {
+  scroll-padding-top: var(--header-height);
+  scroll-snap-type: y mandatory;
+}
+
+[data-snap-sections] section:not(:has(section)),
+.site-footer {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@media (max-width: 575.98px) {
+  :root { --header-height: 88px; }
+}
 
 body {
   -webkit-font-smoothing: antialiased;

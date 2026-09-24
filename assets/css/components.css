@@ -178,6 +178,11 @@
   pointer-events: none;
 }
 
+/* Phone crops of the same footage sit tighter and brighter, so the haze works harder. */
+@media (max-width: 767.98px) {
+  .hero-copy::before { background: rgba(0, 0, 0, 0.45); }
+}
+
 /* Brand band: maroon strip with the arch pattern on the left */
 
 .brand-band {
