@@ -90,6 +90,16 @@
 .home-hero__content .link-light { display: inline-block; }
 .home-hero__title { margin-bottom: 36px; font-size: var(--fs-display); line-height: 1.2; }
 
+/* Pieces the mobile design adds; shown at the phone breakpoint below. */
+
+.home-hero__line--narrow,
+.scroll-cue,
+.hero-fab,
+.home-section-foot,
+.discover__cta { display: none; }
+
+.discover__frame { position: relative; }
+
 /* Section heads */
 
 .home-section-head { margin-bottom: clamp(28px, 2.5vw, 47px); padding-inline: var(--gutter); text-align: center; }
@@ -205,4 +215,126 @@
   .peek-slide__body .link-brand { margin-top: 20px; }
   .home-news-card__body { padding: 28px 8px 0; }
   .stats { grid-template-columns: 1fr; row-gap: 40px; }
+}
+
+/* Phone layout, following the "Home - Mobile" design */
+
+@media (max-width: 575.98px) {
+  .home-hero__line--wide { display: none; }
+  .home-hero__line--narrow { display: inline; }
+
+  .home-hero__stage { align-items: center; padding-block: 88px 120px; }
+  .home-hero__content { width: 100%; text-align: center; }
+  .home-hero__title { margin-bottom: 24px; font-size: 1.375rem; }
+
+  /* The link becomes the design's glass pill. */
+  .home-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.18);
+    -webkit-backdrop-filter: blur(21px);
+    backdrop-filter: blur(21px);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .home-hero__cta:hover { background-size: 0 1px; }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    transform: translateX(-50%);
+  }
+
+  .scroll-cue__icon { width: 14px; height: 20px; }
+
+  .hero-fab {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+  }
+
+  .hero-fab img { width: 20px; height: 20px; }
+
+  /* The "view all" link moves below the carousel as a full-width button. */
+  .home-section-head .link-brand { display: none; }
+  .home-section-foot { display: block; margin-top: clamp(20px, 5vw, 28px); }
+
+  /* Property slides become cards: square image and caption inside one white card (Figma 353x350 image
+     in a 353-wide card), with the copy set smaller than on the wider layout. */
+  .peek-carousel { --slide-w: calc(100vw - 40px); --col-gap: 10px; }
+
+  .peek-slide {
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .peek-slide__media { aspect-ratio: 353 / 350; border-radius: 0; }
+
+  .peek-slide__caption { padding: 20px; }
+  .peek-slide__caption .eyebrow { margin-bottom: 12px; font-size: 11px; }
+  .peek-slide__title { font-size: 16px; }
+
+  .peek-slide__body { padding-top: 12px; }
+  .peek-slide__body p { font-size: 13px; line-height: 20px; }
+  .peek-slide__body .link-brand { margin-top: 20px; font-size: 13px; }
+
+  /* Arrows sit on the middle of the square image. */
+  .peek-carousel .carousel-arrow { top: calc(var(--slide-w) * 0.496); }
+
+  /* News: one card across the gutter with the neighbours peeking, like the property carousels.
+     The track runs edge to edge and carries the gutter as padding, so the next card shows. */
+  .home-news .container-wide { padding-inline: 0; }
+
+  .home-news__carousel { --per-view-sm: 1; --gap: 10px; }
+
+  .home-news__carousel .scroll-carousel__track {
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+
+  .home-news__carousel .carousel-arrow { top: calc((100cqw - 2 * var(--gutter)) * 0.496); }
+  .home-news__carousel .carousel-arrow--prev { left: 5px; }
+  .home-news__carousel .carousel-arrow--next { right: 5px; }
+
+  .home-news__carousel .carousel-dots { padding-inline: var(--gutter); }
+
+  /* News cards use the same square crop. */
+  .home-news-card__media { aspect-ratio: 353 / 350; }
+  .home-news-card__body { padding: 20px 0 0; }
+  .home-news-card__title { font-size: 15px; line-height: 1.4; }
+  .home-news-card__body .link-brand { font-size: 13px; }
+
+  /* The date sits only on the wider layout. */
+  .home-news-card__body .eyebrow { display: none; }
+
+  /* Discover: the link sits on the image. */
+  .discover__cta {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    display: inline-flex;
+    min-width: min(246px, calc(100% - 2 * var(--gutter)));
+    transform: translateX(-50%);
+  }
+
+  .discover__head .link-brand { display: none; }
 }

@@ -4,6 +4,21 @@
     const count = slides.length;
     let active = 0;
 
+    // Dots: the design shows them on phones; CSS hides them on wider screens.
+    const dots = slides.map((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dots__dot';
+      dot.setAttribute('aria-label', `Show slide ${i + 1} of ${count}`);
+      dot.addEventListener('click', () => go(i));
+      return dot;
+    });
+
+    const dotList = document.createElement('div');
+    dotList.className = 'carousel-dots';
+    dotList.append(...dots);
+    root.append(dotList);
+
     const render = () => {
       slides.forEach((slide, i) => {
         let offset = (((i - active) % count) + count) % count;
@@ -14,6 +29,11 @@
         slide.style.setProperty('--offset', offset);
         slide.classList.toggle('is-active', offset === 0);
         slide.inert = offset !== 0;
+      });
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === active);
+        dot.setAttribute('aria-current', String(i === active));
       });
     };
 

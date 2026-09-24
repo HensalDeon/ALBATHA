@@ -82,6 +82,7 @@ Slow, soft and editorial; never bouncy. Plain CSS (`animations.css`, plus hover 
 | `data-scroll-hero` | Publishes the section's scroll position as `--scroll-progress` (0–1); the section's height is the scroll distance |
 | `data-carousel-progress` | Progress bar for a Bootstrap carousel |
 | `data-disclosure` (+ `aria-controls`) | Toggles a `.disclosure` panel (menu sub-lists) |
+| `data-disclosure="mobile"` | The same, but only on phones; wider screens show the panel open and skip the toggle (footer link groups) |
 
 Conventions:
 
@@ -113,6 +114,7 @@ Conventions:
 | Page | Figma node |
 | --- | --- |
 | Home / menu | `2353:227` / `2353:594` |
+| Home (mobile) | `2291:2835` |
 | About | `2412:557` |
 | Properties for sale | `2432:3298` |
 | Residential / Commercial / Industrial / Special | `2402:734` / `2459:6436` / `2459:6826` / `2459:7216` |
@@ -142,6 +144,12 @@ Conventions:
   - `about/tower.jpg` only exists at 800×1200 in Figma and looks soft full-width — request a larger original.
 ## Page notes
 
+- **Home on phones** follows its own Figma frame (`2291:2835`), not a narrowed desktop layout: logo left and menu right
+  in the header, a centred hero headline ("Heritage of excellence") with a glass pill, a scroll cue and a floating
+  contact button, carousel dots plus a full-width "View All Projects" button under each carousel, the news date hidden,
+  the Discover link as a pill on the image, and a footer that leads with the newsletter and collapses its link groups.
+  All of it is confined to the ≤575.98px breakpoint; the wider layout is unchanged. The two hero headlines are separate
+  spans, so only the visible one is read out.
 - **Contact** selects an enquiry type from the URL hash, so other pages can deep-link:
   `contact.html#general-enquiries`, `#investment-opportunities`, `#leasing-enquiries`, `#corporate-office`.
   The contact details (map, phones, email, working hours) are their own block below the enquiry options —

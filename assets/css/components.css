@@ -459,6 +459,26 @@ html:not(.js) .peek-carousel .carousel-arrow { display: none; }
   transition: transform 0.7s var(--ease-inout);
 }
 
+/* Carousel dots: built by the carousel scripts, shown on phones where the design uses them */
+
+.carousel-dots { display: none; justify-content: center; gap: 8px; margin-top: clamp(20px, 5vw, 28px); }
+
+.carousel-dots__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--brand-line);
+  transition: background-color 0.4s var(--ease);
+}
+
+.carousel-dots__dot.is-active { background: var(--brand); }
+
+@media (max-width: 575.98px) {
+  .carousel-dots { display: flex; }
+}
+
 /* Disclosure: a panel toggled by <button data-disclosure aria-controls> (main.js).
    Open by default, so it stays usable without JS. */
 

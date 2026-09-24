@@ -62,6 +62,23 @@
       return item.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
     };
 
+    // Dots: the design shows them on phones; CSS hides them on wider screens.
+    const dots = [...track.children].map((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dots__dot';
+      dot.setAttribute('aria-label', `Show item ${i + 1} of ${track.children.length}`);
+      dot.addEventListener('click', () => {
+        track.scrollTo({ left: i * step(), behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      });
+      return dot;
+    });
+
+    const dotList = document.createElement('div');
+    dotList.className = 'carousel-dots';
+    dotList.append(...dots);
+    root.append(dotList);
+
     const scrollByStep = (direction) => {
       track.scrollBy({ left: direction * step(), behavior: reducedMotion.matches ? 'auto' : 'smooth' });
     };
@@ -77,6 +94,12 @@
         thumb.style.width = `${ratio * 100}%`;
         thumb.style.transform = `translateX(${progress * (1 / ratio - 1) * 100}%)`;
       }
+
+      const index = Math.round(track.scrollLeft / step());
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === index);
+        dot.setAttribute('aria-current', String(i === index));
+      });
     };
 
     prev?.addEventListener('click', () => scrollByStep(-1));

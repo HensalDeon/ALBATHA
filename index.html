@@ -124,10 +124,19 @@
         <div class="home-hero__wipe" aria-hidden="true"></div>
         <div class="container-wide">
           <div class="home-hero__content hero-copy">
-            <h1 class="home-hero__title" data-reveal="up" data-reveal-delay="150">Built on legacy.<br>Driven by integrity.<br>Trusted for the future.</h1>
-            <a class="link-light" href="properties-for-sale.html" data-reveal="up" data-reveal-delay="300">Explore our properties&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
+            <h1 class="home-hero__title" data-reveal="up" data-reveal-delay="150">
+              <span class="home-hero__line home-hero__line--wide">Built on legacy.<br>Driven by integrity.<br>Trusted for the future.</span>
+              <span class="home-hero__line home-hero__line--narrow">Heritage of excellence</span>
+            </h1>
+            <a class="home-hero__cta link-light" href="properties-for-sale.html" data-reveal="up" data-reveal-delay="300"><span class="home-hero__line--wide">Explore our properties</span><span class="home-hero__line--narrow">Explore Projects</span>&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
+
+        <p class="scroll-cue" aria-hidden="true"><img class="scroll-cue__icon" src="assets/icons/scroll-mouse.svg" width="14" height="20" alt="">Scroll</p>
+
+        <a class="hero-fab fab" href="contact.html" aria-label="Contact us">
+          <img src="assets/icons/phone-white.svg" width="20" height="20" alt="">
+        </a>
       </div>
     </section>
 
@@ -186,6 +195,9 @@
           <img src="assets/icons/arrow.svg" width="10" height="18" alt="">
         </button>
       </div>
+      <div class="container-wide home-section-foot">
+        <a class="btn-brand btn-brand--block home-section-cta" href="properties-for-sale.html">View All Projects&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
+      </div>
     </section>
 
     <section class="home-properties home-properties--tint" aria-labelledby="lease-title">
@@ -242,6 +254,9 @@
         <button type="button" class="carousel-arrow carousel-arrow--next" data-next aria-label="Next property">
           <img src="assets/icons/arrow.svg" width="10" height="18" alt="">
         </button>
+      </div>
+      <div class="container-wide home-section-foot">
+        <a class="btn-brand btn-brand--block home-section-cta" href="properties-for-lease.html">View All Projects&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </section>
 
@@ -301,7 +316,10 @@
         <h2 id="discover-title" class="section-title" data-reveal="up" data-reveal-delay="100">Discover Albatha</h2>
         <a class="link-brand" href="about.html" data-reveal="up" data-reveal-delay="300">Read about our journey&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
       </div>
-      <img class="discover__media" data-reveal="mask" src="assets/images/home/discover.jpg" width="2400" height="1600" alt="Couple on the terrace of a modern residence" loading="lazy">
+      <div class="discover__frame">
+        <img class="discover__media" data-reveal="mask" src="assets/images/home/discover.jpg" width="2400" height="1600" alt="Couple on the terrace of a modern residence" loading="lazy">
+        <a class="btn-glass btn-glass--outline discover__cta" href="about.html">Read about our journey&nbsp;<span class="arrow" aria-hidden="true">→</span></a>
+      </div>
       <div class="container-wide">
         <div class="stats" data-reveal-stagger="150">
           <div class="stat" data-reveal="up">
@@ -327,30 +345,42 @@
     <div class="container-wide">
       <div class="footer-top" data-reveal-stagger="120">
         <nav aria-labelledby="footer-discover" data-reveal="up">
-          <h2 id="footer-discover" class="footer-heading">Discover</h2>
-          <ul class="footer-links">
-            <li><a href="about.html">Our Story</a></li>
-            <li><a href="news.html">News &amp; Insights</a></li>
-            <li><a href="#">Albatha Portal</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
+          <h2 id="footer-discover" class="footer-heading">
+            <button type="button" class="footer-heading__toggle" data-disclosure="mobile" aria-expanded="true" aria-controls="footer-discover-panel">Discover<img class="footer-heading__chevron" src="assets/icons/chevron.svg" width="6" height="10" alt=""></button>
+          </h2>
+          <div class="disclosure" id="footer-discover-panel">
+            <ul class="footer-links">
+              <li><a href="about.html">Our Story</a></li>
+              <li><a href="news.html">News &amp; Insights</a></li>
+              <li><a href="#">Albatha Portal</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
         </nav>
         <nav aria-labelledby="footer-explore" data-reveal="up">
-          <h2 id="footer-explore" class="footer-heading">Explore</h2>
-          <ul class="footer-links">
-            <li><a href="residential-projects.html">Residential Projects</a></li>
-            <li><a href="commercial-projects.html">Commercial Projects</a></li>
-            <li><a href="industrial-projects.html">Industrial Projects</a></li>
-            <li><a href="special-projects.html">Special Projects</a></li>
-          </ul>
+          <h2 id="footer-explore" class="footer-heading">
+            <button type="button" class="footer-heading__toggle" data-disclosure="mobile" aria-expanded="false" aria-controls="footer-explore-panel">Explore<img class="footer-heading__chevron" src="assets/icons/chevron.svg" width="6" height="10" alt=""></button>
+          </h2>
+          <div class="disclosure" id="footer-explore-panel">
+            <ul class="footer-links">
+              <li><a href="residential-projects.html">Residential Projects</a></li>
+              <li><a href="commercial-projects.html">Commercial Projects</a></li>
+              <li><a href="industrial-projects.html">Industrial Projects</a></li>
+              <li><a href="special-projects.html">Special Projects</a></li>
+            </ul>
+          </div>
         </nav>
         <nav aria-labelledby="footer-follow" data-reveal="up">
-          <h2 id="footer-follow" class="footer-heading footer-heading--heavy">Follow Us</h2>
-          <ul class="footer-links">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Meta</a></li>
-            <li><a href="#">Twitter</a></li>
-          </ul>
+          <h2 id="footer-follow" class="footer-heading footer-heading--heavy">
+            <button type="button" class="footer-heading__toggle" data-disclosure="mobile" aria-expanded="false" aria-controls="footer-follow-panel">Follow Us<img class="footer-heading__chevron" src="assets/icons/chevron.svg" width="6" height="10" alt=""></button>
+          </h2>
+          <div class="disclosure" id="footer-follow-panel">
+            <ul class="footer-links">
+              <li><a href="#">Instagram</a></li>
+              <li><a href="#">Meta</a></li>
+              <li><a href="#">Twitter</a></li>
+            </ul>
+          </div>
         </nav>
         <div class="footer-subscribe" data-reveal="up">
           <h2 class="footer-heading" id="footer-newsletter">Subscribe to our newsletter</h2>

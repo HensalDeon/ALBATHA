@@ -186,7 +186,9 @@
         if (progress < 0.98) advanced = false;
         if (progress >= 1 && !advanced && next) {
           advanced = true;
-          window.scrollTo({ top: Math.round(next.getBoundingClientRect().top + window.scrollY), behavior: 'smooth' });
+          // Land where the section's own snap point is, or snapping immediately drags it again.
+          const header = parseFloat(getComputedStyle(root).getPropertyValue('--header-height')) || 0;
+          window.scrollTo({ top: Math.round(next.getBoundingClientRect().top + window.scrollY - header), behavior: 'smooth' });
         }
 
         // The copy clears out over the opening, before the arch of light takes the screen.
@@ -262,18 +264,37 @@
   /* Disclosure: <button data-disclosure aria-expanded aria-controls> toggling a .disclosure panel */
 
   const initDisclosures = () => {
+    // data-disclosure="mobile" only collapses on phones; wider screens show the panel as a plain list.
+    const phone = window.matchMedia('(max-width: 575.98px)');
+
     document.querySelectorAll('[data-disclosure]').forEach((toggle) => {
       const panel = document.getElementById(toggle.getAttribute('aria-controls'));
       if (!panel) return;
 
-      const setOpen = (open) => {
-        toggle.setAttribute('aria-expanded', String(open));
-        panel.classList.toggle('is-collapsed', !open);
-        panel.inert = !open;
+      const phoneOnly = toggle.dataset.disclosure === 'mobile';
+      const openByDefault = toggle.getAttribute('aria-expanded') !== 'false';
+      let open = openByDefault;
+
+      const render = () => {
+        const interactive = !phoneOnly || phone.matches;
+        const shown = interactive ? open : true;
+        toggle.setAttribute('aria-expanded', String(shown));
+        toggle.tabIndex = interactive ? 0 : -1;
+        panel.classList.toggle('is-collapsed', !shown);
+        panel.inert = !shown;
       };
 
-      toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-      setOpen(toggle.getAttribute('aria-expanded') !== 'false');
+      toggle.addEventListener('click', () => {
+        if (!phoneOnly || phone.matches) {
+          open = !open;
+          render();
+        }
+      });
+
+      if (phoneOnly) {
+        phone.addEventListener('change', () => { open = openByDefault; render(); });
+      }
+      render();
     });
   };
 
