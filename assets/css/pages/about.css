@@ -40,28 +40,32 @@
 .about-intro__title { margin-top: 6px; font-size: var(--fs-display); line-height: 1.2; }
 .about-intro__text { margin-top: 12px; }
 
-.about-cityscape__media {
+/* 50+ years: the cityscape and the statement together fill one screen */
+
+.about-legacy {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: clamp(20px, 2.6vw, 47px);
+  /* A definite height, so the image row has something to shrink into. */
+  height: calc(100svh);
+  padding: clamp(24px, 2.6vw, 50px) var(--gutter) clamp(32px, 3.6vw, 70px);
+  text-align: center;
+}
+
+.about-legacy__media {
   display: block;
   width: 100%;
-  aspect-ratio: 1720 / 895;
+  height: 100%;
+  min-height: 0;
   object-fit: cover;
   border-radius: var(--radius);
 }
 
-/* 50+ years */
-
-.about-legacy {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: clamp(64px, 5.21vw, 100px) var(--gutter) clamp(64px, 4.95vw, 95px);
-  text-align: center;
-}
-
-.about-legacy__icon { width: clamp(64px, 4.9vw, 94px); height: auto; }
+.about-legacy__body { display: grid; justify-items: center; align-content: center; }
+.about-legacy__icon { width: clamp(48px, 4.9vw, 94px); height: auto; }
 
 .about-legacy__title {
-  margin-top: clamp(28px, 2.45vw, 47px);
+  margin-top: clamp(16px, 2.45vw, 47px);
   background: var(--heritage-gradient);
   -webkit-background-clip: text;
   background-clip: text;
@@ -83,8 +87,8 @@
   flex-direction: row-reverse;
   align-items: center;
   gap: clamp(32px, 4.17vw, 80px);
-  min-height: clamp(620px, 59.32vw, 1139px);
-  padding-block: 80px;
+  min-height: calc(100svh);
+  padding-block: clamp(40px, 4vw, 80px);
   padding-inline: var(--gutter);
   overflow: hidden;
   border-radius: var(--radius);
@@ -112,12 +116,12 @@
   display: flex;
   flex: none;
   flex-direction: column;
-  gap: clamp(24px, 4.58vw, 88px);
+  gap: clamp(10px, 2.2vw, 40px);
 }
 
 .about-timeline__tab {
   width: clamp(104px, 7.34vw, 141px);
-  padding: 12px 0;
+  padding: clamp(6px, 0.8vw, 12px) 0;
   border: 1px solid transparent;
   border-radius: 40px;
   background: transparent;
@@ -281,7 +285,7 @@
     align-items: stretch;
     justify-content: space-between;
     gap: 40px;
-    min-height: clamp(560px, 140vw, 760px);
+    min-height: calc(100svh);
     padding-block: 40px;
   }
 
@@ -311,7 +315,9 @@
 }
 
 @media (max-width: 575.98px) {
-  .about-cityscape__media { aspect-ratio: 4 / 3; }
+  /* Phones have the room already, so the image keeps its own shape. */
+  .about-legacy { grid-template-rows: auto auto; height: auto; }
+  .about-legacy__media { height: auto; aspect-ratio: 4 / 3; }
 
   .about-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 16px; }
   .about-stat { min-width: 0; gap: 4px; }

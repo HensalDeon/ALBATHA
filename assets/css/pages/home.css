@@ -19,6 +19,11 @@
 @media (prefers-reduced-motion: no-preference) {
   .js [data-scroll-hero] { height: 200svh; }
 
+  /* The hero starts at the very top of the page with the (sticky, black) header over it, so the stage
+     is exactly one screen from the first paint. Without this the hero is a header taller than the
+     screen, and that surplus has to be scrolled through before the animation can start. */
+  .js [data-scroll-hero] { margin-top: calc(-1 * var(--header-height)); }
+
   .js [data-scroll-hero] .home-hero__stage {
     position: sticky;
     top: 0;

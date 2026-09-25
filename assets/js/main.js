@@ -148,7 +148,6 @@
       const copy = section.querySelector('.hero-copy');
       const wipe = section.querySelector('.home-hero__wipe');
       let viewport = '';
-      let header = 0;
 
       // How far the arch must grow to span this viewport. Only a little past it: the white below fills
       // the corners, so the scene stays on screen until the very end of the scroll.
@@ -156,7 +155,6 @@
         const key = `${window.innerWidth}x${window.innerHeight}`;
         if (!wipe || key === viewport) return;
         viewport = key;
-        header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
         const scale = Math.max(window.innerWidth / Math.max(1, wipe.offsetWidth),
                                window.innerHeight / Math.max(1, wipe.offsetHeight)) * 1.15;
         section.style.setProperty('--wipe-scale-max', scale.toFixed(2));
@@ -173,10 +171,9 @@
         const distance = section.offsetHeight - window.innerHeight;
         if (distance <= 0) return;
 
-        // The hero sits below the sticky header, so the first ~115px of scrolling only moves the header
-        // out of the way. Counting that in means the arch starts on the first pixel of scroll instead of
-        // after a stretch where nothing happens.
-        const scrolled = -section.getBoundingClientRect().top + header;
+        // The hero starts at the top of the page (home.css pulls it under the sticky header), so its own
+        // top is the zero point and the animation runs from the first pixel of scroll.
+        const scrolled = -section.getBoundingClientRect().top;
         const progress = Math.min(1, Math.max(0, scrolled / distance));
         section.style.setProperty('--scroll-progress', progress.toFixed(4));
 
@@ -199,7 +196,7 @@
           root.style.scrollSnapType = 'none';
 
           // Land where the section's own snap point is, or snapping immediately drags it again.
-          window.scrollTo({ top: Math.round(next.getBoundingClientRect().top + window.scrollY - header), behavior: 'smooth' });
+          window.scrollTo({ top: Math.round(next.getBoundingClientRect().top + window.scrollY ), behavior: 'smooth' });
 
           // Hand snapping back once the scroll has come to rest.
           const done = () => {

@@ -85,7 +85,7 @@
    Sections taller than the screen stay readable: the browser lets the scroll move within them. */
 
 :root {
-  scroll-padding-top: var(--header-height);
+  /* scroll-padding-top: var(--header-height); */
   scroll-snap-type: y mandatory;
 }
 
