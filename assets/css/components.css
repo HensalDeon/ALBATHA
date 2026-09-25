@@ -131,7 +131,7 @@
   isolation: isolate;
   display: flex;
   align-items: flex-end;
-  min-height: clamp(460px, 48.96vw, 940px);
+  min-height: clamp(460px, 58.96vw, 100vh);
   padding-block: 120px clamp(40px, 5.2vw, 100px);
   overflow: hidden;
   color: #fff;

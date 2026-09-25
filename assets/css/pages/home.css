@@ -5,7 +5,7 @@
 .home-hero {
   /* How white the hero gets at its peak — the two knobs for the arch animation.
      --arch-opacity: the pane of light itself. */
-  --arch-opacity: 0.35;
+  --arch-opacity: 0.4;
   position: relative;
   color: #fff;
 }
