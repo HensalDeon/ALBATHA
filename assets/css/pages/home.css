@@ -78,8 +78,11 @@
   width: 35%;
   aspect-ratio: 33.9849 / 49.8857;
   background: #fff;
-  -webkit-mask: url("../../images/shared/arch.svg") center / contain no-repeat;
-  mask: url("../../images/shared/arch.svg") center / contain no-repeat;
+  /* The arch shape is inlined rather than linked: a CSS mask pointing at an .svg file is blocked when
+     the site is opened straight from disk (file://), which made the arch vanish entirely.
+     Source of truth for the shape: assets/images/shared/arch.svg */
+  -webkit-mask: url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2033.9849%2049.8857%22%3E%3Cpath%20fill=%22%23fff%22%20d=%22M26.6755%205.27688C22.2237%201.7697%2017.4911%200%2016.9939%200C16.4967%200%2011.7758%201.73747%207.31528%205.27688C3.62108%208.21271%200%2013.0999%200%2018.8046V47.8933C0%2048.9921%200.889183%2049.8857%201.98896%2049.8857H31.9959C33.0928%2049.8857%2033.9849%2048.995%2033.9849%2047.8933V18.8046C33.9849%2013.1028%2030.3901%208.20392%2026.6755%205.27688Z%22/%3E%3C/svg%3E') center / contain no-repeat;
+  mask: url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2033.9849%2049.8857%22%3E%3Cpath%20fill=%22%23fff%22%20d=%22M26.6755%205.27688C22.2237%201.7697%2017.4911%200%2016.9939%200C16.4967%200%2011.7758%201.73747%207.31528%205.27688C3.62108%208.21271%200%2013.0999%200%2018.8046V47.8933C0%2048.9921%200.889183%2049.8857%201.98896%2049.8857H31.9959C33.0928%2049.8857%2033.9849%2048.995%2033.9849%2047.8933V18.8046C33.9849%2013.1028%2030.3901%208.20392%2026.6755%205.27688Z%22/%3E%3C/svg%3E') center / contain no-repeat;
   opacity: 0;
   /* A touch of blur (which grows with the shape) keeps it reading as light, not a pasted cut-out. */
   filter: blur(1.5px);
