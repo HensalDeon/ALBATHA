@@ -15,7 +15,7 @@
   isolation: isolate;
   display: flex;
   align-items: flex-end;
-  min-height: clamp(520px, calc(100svh - 115px), 965px);
+  min-height: clamp(520px, calc(100svh - var(--header-height)), 965px);
   padding-block: 120px clamp(56px, 7.8vw, 150px);
   overflow: hidden;
 }
@@ -23,17 +23,15 @@
 .home-hero__stage > .container-wide { width: 100%; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-scroll-hero] { height: 200svh; }
+  /* One screen of stage plus one screen of scrub, both measured under the always-visible header. */
+  .js [data-scroll-hero] { height: calc(200svh - var(--header-height)); }
 
-  /* The hero starts at the very top of the page with the (sticky, black) header over it, so the stage
-     is exactly one screen from the first paint. Without this the hero is a header taller than the
-     screen, and that surplus has to be scrolled through before the animation can start. */
-  .js [data-scroll-hero] { margin-top: calc(-1 * var(--header-height)); }
-
+  /* The stage pins directly below the header and fills the rest of the screen: nothing sits behind the
+     header, and there is no surplus height to scroll through before the animation starts. */
   .js [data-scroll-hero] .home-hero__stage {
     position: sticky;
-    top: 0;
-    height: 100svh;
+    top: var(--header-height);
+    height: calc(100svh - var(--header-height));
     min-height: 0;
   }
 
@@ -46,7 +44,7 @@
     --rise: clamp(0, calc(var(--scroll-progress, 0) / 0.32), 1);
     --zoom: clamp(0, calc((var(--scroll-progress, 0) - 0.28) / 0.72), 1);
     transform:
-      translate(-50%, calc(-50% + (1 - var(--rise)) * 90vh))
+      translate(-50%, calc(-50% + (1 - var(--rise)) * 90svh))
       scale(calc(1 + var(--zoom) * (var(--wipe-scale-max, 8) - 1)));
     opacity: calc(clamp(0, calc(var(--scroll-progress, 0) * 14), 1) * var(--arch-opacity) * (1 - var(--hero-exit, 0)));
   }
@@ -153,7 +151,7 @@
   isolation: isolate;
   display: grid;
   place-items: center;
-  min-height: clamp(480px, 56.25vw, 1080px);
+  min-height: clamp(480px, 56.25vw, 880px);
   padding: 80px var(--gutter);
   overflow: hidden;
   color: #fff;

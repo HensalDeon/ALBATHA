@@ -67,7 +67,7 @@ Slow, soft and editorial; never bouncy. Plain CSS (`animations.css`, plus hover 
 
 - **Always visible**: styles that hide content before it reveals only apply under the `.js` class (set inline in
   `<head>`). Everything that moves on its own sits inside `@media (prefers-reduced-motion: no-preference)`; with reduced
-  motion `main.js` shows everything at once and skips parallax, header hiding and carousel autoplay.
+  motion `main.js` shows everything at once and skips parallax, the hero animation and carousel autoplay.
 - **Cheap to render**: only `opacity`, `transform`/`scale`, `clip-path` and (for disclosures) `grid-template-rows` animate.
   Reveals use one IntersectionObserver; parallax and the header share one frame-throttled passive scroll listener.
 - **Two easings**: `--ease` (soft ease-out, most motion) and `--ease-inout` (masks, fills, menus).
@@ -97,17 +97,41 @@ Conventions:
   nothing stays clipped. Don't nest reveals, and don't put one on an element with its own `transform`; reveal a wrapper.
 - Nothing loops except `.scroll-cue__icon` and the `.fab` pulse, both ready in `animations.css` but unused because the
   design has no scroll cue or floating button.
-- The home hero animates on scroll from one still (`assets/images/home/hero.jpg`): the section is `200svh` tall with a
-  sticky one-screen stage and `main.js` publishes `--scroll-progress`. A translucent brand arch
+- The home hero animates on scroll from one still (`assets/images/home/hero.jpg`): the section is
+  `calc(200svh - var(--header-height))` tall with a stage pinned below the header, one screen minus the header high, and
+  `main.js` publishes `--scroll-progress` over exactly that one screen of scroll. A translucent brand arch
   (`assets/images/shared/arch.svg`) rises from below the screen, settles, then zooms until it covers the scene, while
   the photo pushes in and the copy fades over the opening. The next section stays off-screen throughout; once the arch
-  has covered the scene, `main.js` scrolls on to it. Snap scrolling is switched off while the hero scrubs (it would
-  pull the scroll off mid-animation) and back on at the end. Only `transform`, `scale` and `opacity` animate, so there
+  has covered the scene, `main.js` scrolls on to it — but only while the hero is still on screen, so arriving further
+  down the page (an anchor link, or a reload restoring a scroll position) is not dragged back up to it. Snap scrolling is
+  switched off while the hero scrubs (it would pull the scroll off mid-animation) and back on at the end, never while a
+  script-driven scroll is in flight — changing it mid-scroll cancels that scroll where it stands. Only `transform`,
+  `scale` and `opacity` animate, so there
   is nothing to decode or download beyond the still. Without JS or with reduced motion the hero is simply the still.
 - **Snap scrolling** (all pages): `scroll-snap-type: y mandatory` on the root, with every `<section>` inside
   `[data-snap-sections]` (each page's `<main>`) and the footer as snap stops, so scrolling moves section to section.
   Sections taller than the screen stay readable — the browser allows scrolling within an oversized snap area.
   `--header-height` (via `scroll-padding-top`) keeps a snapped section clear of the sticky header.
+- **Scrolling up aligns to a section's start.** Because the browser lets the scroll rest anywhere inside an oversized
+  snap area, an upward flick would otherwise leave the reader part-way down the previous section. `main.js` waits for the
+  upward scroll to come to rest (`scrollend`) and then glides to the nearest section start at or above the top of the
+  screen. Downward scrolling is left to CSS. Every script-driven scroll — this and the hero hand-off — goes through one
+  helper (`glideTo`) that flags "a script is scrolling", so the two can never correct each other's scrolls. It animates
+  the scroll itself, a frame at a time, on `--ease-inout` over `420ms + 0.55ms per pixel` (capped at 1.25s): the
+  browser's own `behavior: 'smooth'` is brisk and not adjustable, and read as a snatch after the unhurried scroll it
+  follows. Snapping is off for the duration (it would cut the glide short on its first frame) and the reader scrolling
+  mid-glide takes it back — a hand-off that never landed arms itself again. The scroll direction is
+  read in its own listener, not the shared frame-throttled one: `scrollend` arrives in the same frame as the last scroll
+  event, so a direction read a frame later still describes the move before it. One case stays with CSS: at the very
+  bottom of a short page the footer's snap point is past the end of the scroll, so mandatory snapping can refuse a small
+  upward flick outright — no scroll happens, so there is nothing to correct.
+- **The header stays on screen.** It used to hide on scroll-down, which meant the gap above a snapped section kept
+  changing and sections read as cut off. It is sticky and always visible, so one constant `scroll-padding-top` lines
+  every section up; `main.js` only toggles `.is-scrolled` for its shadow.
+- **A "full screen" section is `calc(100svh - var(--header-height))`**, never `100svh`: the header is always there, so a
+  whole screen would run under it and read as cut off. The same applies to caps (`.page-hero`'s `min-height`, the
+  project gallery's image) and to the hero's own maths in `main.js`. `--header-height` changes on phones (115px → 88px),
+  so it is always the variable, never the number.
 
 ## Figma frames
 

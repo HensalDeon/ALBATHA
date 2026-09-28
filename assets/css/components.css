@@ -131,7 +131,8 @@
   isolation: isolate;
   display: flex;
   align-items: flex-end;
-  min-height: clamp(460px, 58.96vw, 100vh);
+  /* Capped to the screen below the always-visible header, so the hero never runs under it. */
+  min-height: clamp(460px, 58.96vw, calc(100svh - var(--header-height)));
   padding-block: 120px clamp(40px, 5.2vw, 100px);
   overflow: hidden;
   color: #fff;

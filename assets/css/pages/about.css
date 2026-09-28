@@ -15,7 +15,7 @@
 
 /* Hero with overlapping intro card */
 
-.about-hero__frame { position: relative; height: clamp(360px, 48.96vw, 940px); overflow: hidden; }
+.about-hero__frame { position: relative; height: clamp(360px, 38.96vw, 940px); overflow: hidden; }
 
 .about-hero__media {
   position: absolute;
@@ -47,7 +47,7 @@
   grid-template-rows: minmax(0, 1fr) auto;
   gap: clamp(20px, 2.6vw, 47px);
   /* A definite height, so the image row has something to shrink into. */
-  height: calc(100svh);
+  height: calc(100svh - var(--header-height));
   padding: clamp(24px, 2.6vw, 50px) var(--gutter) clamp(32px, 3.6vw, 70px);
   text-align: center;
 }
@@ -87,7 +87,7 @@
   flex-direction: row-reverse;
   align-items: center;
   gap: clamp(32px, 4.17vw, 80px);
-  min-height: calc(100svh);
+  min-height: calc(100svh - var(--header-height));
   padding-block: clamp(40px, 4vw, 80px);
   padding-inline: var(--gutter);
   overflow: hidden;
@@ -285,7 +285,7 @@
     align-items: stretch;
     justify-content: space-between;
     gap: 40px;
-    min-height: calc(100svh);
+    min-height: calc(100svh - var(--header-height));
     padding-block: 40px;
   }
 

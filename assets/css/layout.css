@@ -1,6 +1,8 @@
 /* Site header, slide-out menu and footer — identical on every page. */
 
-/* Header: sticky. main.js adds .is-scrolled past 10px and .is-hidden while scrolling down. */
+/* Header: sticky and always on screen. It used to hide while scrolling down, but then the offset that
+   keeps snapped sections clear of it could not be a constant — sections ended up looking cut off.
+   main.js only adds .is-scrolled past 10px, for the shadow. */
 
 .site-header {
   position: sticky;
@@ -12,14 +14,6 @@
 }
 
 .site-header.is-scrolled { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); }
-
-/* The transform is only set while hidden: a permanent one would make the header the containing block
-   for fixed-position descendants. */
-.site-header.is-hidden { transform: translateY(-100%); }
-
-@media (prefers-reduced-motion: no-preference) {
-  .site-header { transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease); }
-}
 
 .site-header__inner {
   display: grid;

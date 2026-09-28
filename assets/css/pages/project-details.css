@@ -185,7 +185,7 @@
 .gallery-card img {
   display: block;
   width: 100%;
-  max-height: 75svh;
+  max-height: calc((100svh - var(--header-height)) * 0.75); /* three-quarters of the screen under the header */
   aspect-ratio: 374 / 852;
   border-radius: var(--radius);
   object-fit: cover;
