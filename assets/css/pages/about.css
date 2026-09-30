@@ -47,7 +47,7 @@
   grid-template-rows: minmax(0, 1fr) auto;
   gap: clamp(20px, 2.6vw, 47px);
   /* A definite height, so the image row has something to shrink into. */
-  height: calc(100svh - var(--header-height));
+  height: clamp(360px, 58.96vw, 940px);
   padding: clamp(24px, 2.6vw, 50px) var(--gutter) clamp(32px, 3.6vw, 70px);
   text-align: center;
 }

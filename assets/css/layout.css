@@ -1,8 +1,7 @@
 /* Site header, slide-out menu and footer — identical on every page. */
 
-/* Header: sticky and always on screen. It used to hide while scrolling down, but then the offset that
-   keeps snapped sections clear of it could not be a constant — sections ended up looking cut off.
-   main.js only adds .is-scrolled past 10px, for the shadow. */
+/* Header: sticky and always on screen, so the offset that keeps anchor targets clear of it is a constant
+   (base.css scroll-padding-top). main.js only adds .is-scrolled past 10px, for the shadow. */
 
 .site-header {
   position: sticky;

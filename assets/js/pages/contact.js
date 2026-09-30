@@ -14,7 +14,11 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const keyOffsets = { ArrowUp: -1, ArrowLeft: -1, ArrowDown: 1, ArrowRight: 1 };
 
-  const scrollBehavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
+  // Through Lenis when main.js started it, so the glide matches the page's own scrolling.
+  const scrollToStart = (el) => {
+    if (window.lenis) window.lenis.scrollTo(el);
+    else el.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' });
+  };
   const activeTab = () => tabs.find((tab) => tab.getAttribute('aria-selected') === 'true') ?? tabs[0];
   const tabForHash = (hash) => tabs.find((tab) => `#${tab.dataset.hash}` === hash);
   const panelFor = (tab) => document.getElementById(tab.getAttribute('aria-controls'));
@@ -59,7 +63,7 @@
     tab.addEventListener('click', () => {
       selectTab(tab);
       // When stacked, the panel sits below all five cards; without scrolling the click looks like it did nothing.
-      if (stackedLayout.matches) panelFor(tab).scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+      if (stackedLayout.matches) scrollToStart(panelFor(tab));
     });
   });
 
@@ -72,7 +76,7 @@
     const tab = tabForHash(location.hash);
     if (!tab) return;
     selectTab(tab, { syncHash: false });
-    section.scrollIntoView({ behavior: scrollBehavior() });
+    scrollToStart(section);
   });
 
   if (form) {

@@ -1,5 +1,5 @@
-/* Site-wide behaviour, loaded on every page: scroll reveal, parallax, the header's scroll state, the
-   slide-out menu, disclosures and carousel progress. Everything is opted into with data attributes in
+/* Site-wide behaviour, loaded on every page: smooth scrolling, scroll reveal, parallax, the header's
+   scroll state, the slide-out menu, disclosures and carousel progress. Everything is opted into with data attributes in
    the markup (see README "Motion"). */
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -29,109 +29,20 @@
     task();
   };
 
-  /* Script-driven scrolls all go through here, so the tasks that react to where the scroll comes to rest
-     can tell a glide of ours from the reader moving. */
+  /* Smooth scrolling: Lenis (https://lenis.dev, loaded from the CDN before this file) eases wheel and
+     trackpad scrolling. Touch keeps the device's own scrolling, and with reduced motion the page scrolls
+     natively. It writes window.scrollY every frame, so the scroll tasks here run as they would anyway. */
 
-  /* The browser's own `behavior: 'smooth'` is brisk and not adjustable, which read as a snatch after the
-     unhurried scroll it follows. These are ours: long enough to be one movement the eye can follow, eased
-     like everything else on the site (--ease-inout), and scaled to how far there is to go. */
+  const initSmoothScroll = () => {
+    if (reducedMotion || typeof window.Lenis !== 'function') return;
 
-  const GLIDE_BASE_MS = 420; // even a short hop takes its time; the site's reveals run a full second
-  const GLIDE_MS_PER_PX = 0.55;
-  const GLIDE_MAX_MS = 1250;
-  const GLIDE_INTERRUPT = 6; // the scroll moved on its own: the reader has taken over
-  const GLIDE_QUIET_MS = 220; // each frame of a glide ends in a scrollend of its own; ignore that wake
-  const SCROLL_REST_MS = 140; // for browsers without scrollend
-  const glide = { busy: false, run: 0, endedAt: 0 };
+    const lenis = new window.Lenis({ autoRaf: true });
+    window.lenis = lenis; // page scripts scroll through it when it is there (contact.js)
 
-  // A glide is under way, or has only just finished: what the scroll is doing is ours, not the reader's.
-  const glideOwnsScroll = () => glide.busy || performance.now() - glide.endedAt < GLIDE_QUIET_MS;
-
-  // cubic-bezier(0.65, 0, 0.35, 1), the token the CSS uses for masks and fills
-  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
-  const glideTo = (top, after) => {
-    const run = ++glide.run; // whatever was running gives way to this
-    const from = window.scrollY;
-    const target = Math.round(top);
-    const span = target - from;
-
-    // `after` is told whether the glide actually arrived, so a caller that was counting on it (the hero's
-    // hand-off) can arm itself again instead of believing it is done.
-    const settle = (arrived) => {
-      glide.busy = false;
-      glide.endedAt = performance.now();
-      if (after) after(arrived);
-      queueScrollTasks(); // anything a task held back while the glide was in flight applies now
-    };
-
-    // Nothing to travel, or no appetite for motion: be there already.
-    if (Math.abs(span) <= 1 || reducedMotion) {
-      if (Math.abs(span) > 1) window.scrollTo({ top: target, behavior: 'instant' });
-      settle(true);
-      return;
-    }
-
-    const root = document.documentElement;
-    const snapWas = root.style.scrollSnapType;
-    root.style.scrollSnapType = 'none'; // snapping would cut the glide short on its first frame
-
-    let duration = 0;
-    let started = 0;
-    let base = from;
-    let travel = span;
-    let wrote = from;
-
-    const stop = (arrived) => {
-      root.style.scrollSnapType = snapWas;
-      settle(arrived);
-    };
-
-    const step = (now) => {
-      if (glide.run !== run) return; // a newer glide has taken the scroll over
-
-      if (!started) {
-        // The scroll may still have been moving when the glide was asked for, so the first frame — not the
-        // call — is where it starts from.
-        started = now;
-        base = window.scrollY;
-        travel = target - base;
-        if (Math.abs(travel) <= 1) {
-          stop(true);
-          return;
-        }
-        // Timed off the real distance left, which the browser may already have shortened by snapping.
-        duration = Math.min(GLIDE_MAX_MS, GLIDE_BASE_MS + Math.abs(travel) * GLIDE_MS_PER_PX);
-      } else if (Math.abs(window.scrollY - wrote) > GLIDE_INTERRUPT) {
-        stop(false); // the reader took the scroll over mid-glide: it is theirs
-        return;
-      }
-
-      const t = Math.min(1, (now - started) / duration);
-      wrote = Math.round(base + travel * easeInOut(t));
-      window.scrollTo({ top: wrote, behavior: 'instant' }); // per frame: 'smooth' here would fight itself
-
-      if (t < 1) {
-        requestAnimationFrame(step);
-        return;
-      }
-      stop(true);
-    };
-
-    glide.busy = true;
-    requestAnimationFrame(step);
-  };
-
-  const onScrollEnd = (task) => {
-    if ('onscrollend' in window) {
-      window.addEventListener('scrollend', task);
-      return;
-    }
-    let timer;
-    onScroll(() => {
-      clearTimeout(timer);
-      timer = setTimeout(task, SCROLL_REST_MS);
-    });
+    // Bootstrap locks the page while the menu is open, but a script scroll would still move it.
+    const menu = document.getElementById('site-menu');
+    menu?.addEventListener('show.bs.offcanvas', () => lenis.stop());
+    menu?.addEventListener('hidden.bs.offcanvas', () => lenis.start());
   };
 
   /* Scroll reveal: data-reveal, data-reveal-delay, data-reveal-stagger */
@@ -270,12 +181,6 @@
         section.style.setProperty('--wipe-scale-max', scale.toFixed(2));
       };
 
-      const root = document.documentElement;
-      const next = section.nextElementSibling;
-      let snapping = null;
-      let advanced = false;
-      let settling = false; // the hand-off scroll is in flight
-
       onScroll(() => {
         measure();
 
@@ -288,39 +193,6 @@
         const progress = Math.min(1, Math.max(0, scrolled / distance));
         section.style.setProperty('--scroll-progress', progress.toFixed(4));
 
-        // Snap scrolling would fight the scrubbing, pulling the scroll off mid-animation, so it stays
-        // off until the hero has played out — and until the hand-off below has landed, or the browser
-        // re-targets that scroll mid-flight and it lurches. Switching it while a glide is in flight
-        // cancels that glide where it stands, so the change waits for the scroll to rest.
-        const wanted = progress < 1 || settling ? 'none' : '';
-        if (wanted !== snapping && !glide.busy) {
-          snapping = wanted;
-          root.style.scrollSnapType = wanted;
-        }
-
-        // The arch has covered the scene: carry on to the next section rather than leaving the rest of
-        // the hero to be scrolled through. Scrolling back up into the hero arms it again.
-        if (progress < 0.98) advanced = false;
-
-        // Only while the hero is still on screen: arriving further down the page (an anchor link, or the
-        // browser restoring a scroll position on reload) must not drag the reader back up to it.
-        const inView = section.getBoundingClientRect().bottom > 0;
-        if (progress >= 1 && !advanced && inView && next) {
-          advanced = true;
-          settling = true;
-          snapping = 'none';
-          root.style.scrollSnapType = 'none';
-
-          // Land where the section's own snap point is — below the header, like every other section —
-          // or snapping immediately drags it again. Snapping comes back once the scroll has rested.
-          glideTo(next.getBoundingClientRect().top + window.scrollY - header, (arrived) => {
-            settling = false;
-            snapping = '';
-            root.style.scrollSnapType = '';
-            if (!arrived) advanced = false; // it never landed; let the next scroll try again
-          });
-        }
-
         // The copy clears out over the opening, before the arch of light takes the screen.
         const copyOpacity = Math.min(1, Math.max(0, (COPY_FADE_END - progress) / COPY_FADE_SPAN));
         if (copy) {
@@ -331,53 +203,8 @@
     });
   };
 
-  /* Scrolling up: land on the start of the section above, not its bottom. CSS snapping lets the scroll
-     rest anywhere inside a section taller than the screen, so scrolling up out of one section leaves the
-     reader part-way down the previous one. Once an upward scroll has come to rest, glide on to that
-     section's start — the same snap point, under the header, that everything else lines up with. */
-
-  const SNAP_SLACK = 4; // this close to a section's start counts as being there
-
-  const initUpwardSnap = () => {
-    const host = document.querySelector('[data-snap-sections]');
-    if (!host) return;
-
-    const stops = [...host.querySelectorAll('section:not(:has(section))')];
-    const footer = document.querySelector('.site-footer');
-    if (footer) stops.push(footer);
-    if (!stops.length) return;
-
-    let lastY = window.scrollY;
-    let up = false;
-
-    // Its own listener rather than the shared frame-throttled one: scrollend arrives in the same frame as
-    // the last scroll event, so a direction read one frame late would still describe the move before it.
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (Math.abs(y - lastY) > 1) up = y < lastY;
-      lastY = y;
-    }, { passive: true });
-
-    onScrollEnd(() => {
-      if (!up || glideOwnsScroll()) return;
-
-      const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
-
-      // The start the reader has most recently scrolled past: the lowest snap point still at or above
-      // the top of the screen. Its offset is negative, so gliding by it moves back up to it.
-      let offset = null;
-      stops.forEach((stop) => {
-        const start = stop.getBoundingClientRect().top - header;
-        if (start <= SNAP_SLACK && (offset === null || start > offset)) offset = start;
-      });
-
-      if (offset === null || offset > -SNAP_SLACK) return; // already resting on a start
-      glideTo(window.scrollY + offset);
-    });
-  };
-
   /* Header: stays put; .is-scrolled past 10px just adds its shadow. It no longer hides on scroll, so
-     the offset keeping snapped sections clear of it is a constant (base.css scroll-padding-top). */
+     the offset keeping anchor targets clear of it is a constant (base.css scroll-padding-top). */
 
   const HEADER_SCROLLED_AT = 10;
 
@@ -468,10 +295,10 @@
     });
   };
 
+  initSmoothScroll();
   initReveal();
   initParallax();
   initScrollHero();
-  initUpwardSnap();
   initHeader();
   initMenu();
   initDisclosures();

@@ -80,22 +80,10 @@
 
 .page-home { --bs-body-bg: var(--page-bg-home); }
 
-/* Snap scrolling: each section (and the footer) is a stop, so scrolling moves section to section.
-   scroll-padding keeps a snapped section clear of the sticky header and does the same for anchor links.
-   Sections taller than the screen stay readable: the browser lets the scroll move within them. */
+/* The header is always on screen, so one constant offset keeps anchor targets clear of it. Lenis
+   (main.js) reads the same value when it scrolls to an element. */
 
-:root {
-  /* The header is always on screen, so one constant offset keeps snapped sections (and anchor links)
-     clear of it. */
-  scroll-padding-top: var(--header-height);
-  scroll-snap-type: y mandatory;
-}
-
-[data-snap-sections] section:not(:has(section)),
-.site-footer {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
+:root { scroll-padding-top: var(--header-height); }
 
 @media (max-width: 575.98px) {
   :root { --header-height: 88px; }
